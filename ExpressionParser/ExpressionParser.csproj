@@ -36,6 +36,7 @@
     <Compile Include="Lex\TokenType.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Expression\Expression.cs" />
+    <Compile Include="Lex\TokenConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />

@@ -18,7 +18,7 @@ namespace ExpressionParser.Lex
             return value;
         }
 
-        public TokenType GetType()
+        public new TokenType GetType()
         {
             return type;
         }

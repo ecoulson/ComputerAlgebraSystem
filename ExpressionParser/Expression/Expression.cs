@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ExpressionParser.Expression
+namespace ExpressionParser
 {
     public class Expression
     {
@@ -9,7 +9,7 @@ namespace ExpressionParser.Expression
 
         public double Evaluate(double x)
         {
-            return 0;
+            throw new NotImplementedException();
         }
     }
 }

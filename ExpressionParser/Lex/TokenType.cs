@@ -5,7 +5,14 @@ namespace ExpressionParser.Lex
     public enum TokenType
     {
         Number,
-        Operator,
-        Identifier
+        Divide,
+        Multiply,
+        Addition,
+        Subtraction,
+        Exponent,
+        Identifier,
+        WhiteSpace,
+        LeftParentheses,
+        RightParentheses
     }
 }

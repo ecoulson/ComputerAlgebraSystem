@@ -1,6 +1,6 @@
 ﻿using System;
 using ExpressionParser.Parser;
-using ExpressionParser.Expression;
+using ExpressionParser;
 using Input;
 using Mathematics;
 
@@ -11,7 +11,7 @@ namespace EulerTangentApproximations
         public static void Main(string[] args)
         {
             Console.WriteLine("Enter a mathematical expression for the differential equation");
-            Expression slopeExpression = Parser.parseExpression(In.GetString());
+            Expression slopeExpression = Parser.ParseExpression(In.GetString());
 
             Console.WriteLine("Enter an initial point in the form: x,y");
             Point initialCondition = GetPoint();

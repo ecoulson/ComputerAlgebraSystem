@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Input
 {
-    public static readonly class In
+    public static class In
     {
         public static double GetDouble()
         {
