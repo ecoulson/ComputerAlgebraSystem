@@ -1,6 +1,8 @@
 ﻿using System;
 using ExpressionParser.Lex;
 using ExpressionParser;
+using System.Collections.Generic;
+using ExpressionParser.SyntaxTree;
 
 namespace ExpressionParser.Parser
 {
@@ -8,7 +10,9 @@ namespace ExpressionParser.Parser
     {
         public static Expression ParseExpression(string expression)
         {
-            throw new NotImplementedException();
+            SyntaxTreeBuilder treeBuilder = new SyntaxTreeBuilder();
+            SyntaxNode root = treeBuilder.BuildTree(Lexer.Lex(expression));
+            return null;
         }
     }
 }

@@ -97,6 +97,17 @@ namespace ExpressionParser.Tests.Lex
         }
 
         [Test()]
+        public void Lex_IdentifierBackSlash_ReturnsIdentifierToken()
+        {
+            List<Token> tokens = Lexer.Lex("\\asdf");
+
+            Assert.IsNotEmpty(tokens);
+            Assert.AreEqual(1, tokens.Count);
+            Assert.AreEqual(TokenType.Identifier, tokens[0].GetType());
+            Assert.AreEqual("\\asdf", tokens[0].GetValue());
+        }
+
+        [Test()]
         public void Lex_WhiteSpace_ReturnsWhiteSpaceToken()
         {
             List<Token> tokens = Lexer.Lex("\t");

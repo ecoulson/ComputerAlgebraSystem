@@ -37,11 +37,14 @@
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Expression\Expression.cs" />
     <Compile Include="Lex\TokenConstants.cs" />
+    <Compile Include="SyntaxTree\SyntaxTreeBuilder.cs" />
+    <Compile Include="SyntaxTree\SyntaxNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
     <Folder Include="Parser\" />
     <Folder Include="Expression\" />
+    <Folder Include="SyntaxTree\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
