@@ -1,7 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using ExpressionParser.Lex;
-using ExpressionParser;
-using System.Collections.Generic;
 using ExpressionParser.SyntaxTree;
 
 namespace ExpressionParser.Parser
