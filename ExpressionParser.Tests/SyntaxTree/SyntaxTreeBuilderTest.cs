@@ -23,8 +23,12 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.AreEqual("Unexpected end of token stream", exception.Message);
         }
 
+        #endregion
+
+        #region Number Terminal Tests
+
         [Test]
-        public void BuildTree_NumberToken_ReturnsANumber()
+        public void BuildTree_NumberToken_ReturnsANumberNode()
         {
             List<Token> tokens = new List<Token>
             {
@@ -36,6 +40,25 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.NotNull(node);
             Assert.AreEqual(SyntaxNodeType.Number, node.Type);
             Assert.AreEqual(1, node.Value);
+        }
+
+        #endregion
+
+        #region Identifier Terminal Tests
+
+        [Test]
+        public void BuildTree_IdentifierToken_ReturnsAnIdentifierNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Identifier, "x")
+            };
+
+            IdentifierNode node = (IdentifierNode)SyntaxTreeBuilder.BuildTree(tokens);
+
+            Assert.NotNull(node);
+            Assert.AreEqual(SyntaxNodeType.Identifier, node.Type);
+            Assert.AreEqual("x", node.Value);
         }
 
         #endregion
@@ -73,12 +96,12 @@ namespace ExpressionParser.Tests.SyntaxTree
         //[Test]
         //public void BuildTree_ValidTokens_ReturnsFunctionExpression()
         //{
-            //List<Token> tokens = new List<Token>
-            //{
-            //    new Token(TokenType.Identifier, "sin"),
-            //    new Token(TokenType.LeftParentheses, ""),
-            //    new Token(TokenType.RightParentheses, ""),
-            //};
+        //List<Token> tokens = new List<Token>
+        //{
+        //    new Token(TokenType.Identifier, "sin"),
+        //    new Token(TokenType.LeftParentheses, ""),
+        //    new Token(TokenType.RightParentheses, ""),
+        //};
 
         //    SyntaxNode functionNode = SyntaxTreeBuilder.BuildTree(tokens);
         //    IdentifierNode functionNameNode = (IdentifierNode)functionNode.Left;

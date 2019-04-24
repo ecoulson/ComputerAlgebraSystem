@@ -45,10 +45,10 @@ namespace ExpressionParser.SyntaxTree
                     throw new NotImplementedException();
 
                 case TokenType.Identifier:
-                    throw new NotImplementedException();
+                    return new IdentifierNode(nextToken);
 
                 case TokenType.Number:
-                    return new NumberNode(nextToken.Value);
+                    return new NumberNode(nextToken);
 
                 default:
                     List<TokenType> possibleTypes = new List<TokenType>()
@@ -61,12 +61,8 @@ namespace ExpressionParser.SyntaxTree
             }
         }
 
-        private static SyntaxNode ReadFunction()
+        private static SyntaxNode ReadFunction(Token nameToken)
         {
-            AssertNotEndOfStream();
-            Token nameToken = NextToken();
-            AssertIsTypeOf(nameToken, TokenType.Identifier);
-
             AssertNotEndOfStream();
             AssertIsTypeOf(NextToken(), TokenType.LeftParentheses);
 
