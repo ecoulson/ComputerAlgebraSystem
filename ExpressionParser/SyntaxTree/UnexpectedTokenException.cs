@@ -13,7 +13,7 @@ namespace ExpressionParser.SyntaxTree
         }
 
         public UnexpectedTokenException(List<TokenType> possibleTypes, TokenType actual) :
-            base($"Expected one of these '{possibleTypes}' tokesn, but got '{actual}' instead.")
+            base($"Expected one of these '{string.Join(", ",possibleTypes)}' tokens, but got '{actual}' instead.")
         {
 
         }

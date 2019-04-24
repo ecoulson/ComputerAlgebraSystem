@@ -6,6 +6,13 @@ namespace ExpressionParser.SyntaxTree
 {
     public static class SyntaxTreeBuilder
     {
+        private static readonly List<TokenType> FormalTokenTypes = new List<TokenType>()
+        {
+            TokenType.LeftParentheses,
+            TokenType.Identifier,
+            TokenType.Number
+        };
+
         private static int cursor;
         private static List<Token> tokens;
 
@@ -36,33 +43,46 @@ namespace ExpressionParser.SyntaxTree
             return rootNode;
         }
 
+        #region Formal Nonterminal
+
         private static SyntaxNode ReadFormal()
         {
             Token nextToken = NextToken();
             switch (nextToken.Type)
             {
                 case TokenType.LeftParentheses:
-                    throw new NotImplementedException();
+                    return ReadParenthesizedExpression();
 
                 case TokenType.Identifier:
-                    return new IdentifierNode(nextToken);
+                    return HandleFormalIdentifierAmbiguity(nextToken);
 
                 case TokenType.Number:
                     return new NumberNode(nextToken);
 
                 default:
-                    List<TokenType> possibleTypes = new List<TokenType>()
-                    {
-                        TokenType.LeftParentheses,
-                        TokenType.Identifier,
-                        TokenType.Number
-                    };
-                    throw new UnexpectedTokenException(possibleTypes, nextToken.Type);
+                    throw new UnexpectedTokenException(FormalTokenTypes, nextToken.Type);
             }
+        }
+
+        private static SyntaxNode ReadParenthesizedExpression()
+        {
+            SyntaxNode expression = ReadExpression();
+            AssertNotEndOfStream();
+            AssertIsTypeOf(PeekToken(), TokenType.RightParentheses);
+            return expression;
+        }
+
+        private static SyntaxNode HandleFormalIdentifierAmbiguity(Token nextToken)
+        {
+            if (HasTokens() && IsTypeOf(PeekToken(), TokenType.LeftParentheses))
+                return ReadFunction(nextToken);
+            else
+                return new IdentifierNode(nextToken);
         }
 
         private static SyntaxNode ReadFunction(Token nameToken)
         {
+            AssertIsTypeOf(nameToken, TokenType.Identifier);
             AssertNotEndOfStream();
             AssertIsTypeOf(NextToken(), TokenType.LeftParentheses);
 
@@ -80,6 +100,10 @@ namespace ExpressionParser.SyntaxTree
                 throw new EndOfTokenStreamException();
             }
         }
+
+        #endregion
+
+        #region Utility
 
         private static bool HasTokens()
         {
@@ -108,5 +132,7 @@ namespace ExpressionParser.SyntaxTree
                 throw new UnexpectedTokenException(type, token.Type);
             }
         }
+
+        #endregion
     }
 }
