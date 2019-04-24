@@ -44,7 +44,6 @@ namespace ExpressionParser.Tests.SyntaxTree
 
         #endregion
 
-
         #region Parenthesized Expression
 
         [Test]
