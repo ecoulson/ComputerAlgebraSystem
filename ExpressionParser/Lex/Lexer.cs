@@ -5,14 +5,20 @@ namespace ExpressionParser.Lex
 {
     public static class Lexer
     {
+        private static int cursor;
+        private static string expression;
+
         public static List<Token> Lex(string expression)
         {
+            Lexer.expression = expression;
+            cursor = 0;
+
             List<Token> tokens = new List<Token>();
-            int cursor = 0;
+
             while (cursor < expression.Length)
             {
-                Token token = LexCursor(expression, ref cursor);
-                if (token.GetType() != TokenType.WhiteSpace)
+                Token token = LexCursor();
+                if (token.Type != TokenType.WhiteSpace)
                 {
                     tokens.Add(token);
                 }
@@ -21,7 +27,7 @@ namespace ExpressionParser.Lex
             return tokens;
         }
 
-        private static Token LexCursor(string expression, ref int cursor)
+        private static Token LexCursor()
         {
             char currentCharacter = expression[cursor];
             switch (currentCharacter)
@@ -42,24 +48,22 @@ namespace ExpressionParser.Lex
                     return new Token(TokenType.LeftParentheses, "");
 
             }
+
             if (TokenConstants.NumberPattern.IsMatch(currentCharacter.ToString()))
             { 
-                return ReadNumber(expression, ref cursor);
+                return ReadNumber();
             }
-            else if (TokenConstants.WhiteSpacePattern.IsMatch(currentCharacter.ToString()))
+            if (TokenConstants.WhiteSpacePattern.IsMatch(currentCharacter.ToString()))
             {
                 return new Token(TokenType.WhiteSpace, "");
             }
-            else
-            {
-                return ReadIdentifier(expression, ref cursor);
-            }
+            return ReadIdentifier();
         }
 
-        private static Token ReadNumber(string expression, ref int cursor)
+        private static Token ReadNumber()
         {
             string number = "";
-            while (ShouldReadNumber(expression, cursor))
+            while (ShouldReadNumber())
             {
                 number += expression[cursor++].ToString();
             }
@@ -68,14 +72,13 @@ namespace ExpressionParser.Lex
             return new Token(TokenType.Number, number);
         }
 
-        private static bool ShouldReadNumber(string expression, int cursor) 
+        private static bool ShouldReadNumber() 
         {
-            return CanRead(expression, cursor) && 
-                    (TokenConstants.NumberPattern.IsMatch(expression[cursor].ToString()) || expression[cursor] == '.');
+            return CanRead() && (TokenConstants.NumberPattern.IsMatch(expression[cursor].ToString()) || expression[cursor] == '.');
         }
 
 
-        private static bool CanRead(string expression, int cursor)
+        private static bool CanRead()
         {
             return cursor < expression.Length;
         }
@@ -88,10 +91,10 @@ namespace ExpressionParser.Lex
             }
         }
 
-        private static Token ReadIdentifier(string expression, ref int cursor)
+        private static Token ReadIdentifier()
         {
             string identifier = "";
-            while (ShouldReadIdentifier(expression, cursor))
+            while (ShouldReadIdentifier())
             {
                 identifier += expression[cursor++].ToString();
             }
@@ -99,9 +102,9 @@ namespace ExpressionParser.Lex
             return new Token(TokenType.Identifier, identifier);
         }
 
-        private static bool ShouldReadIdentifier(string expression, int cursor)
+        private static bool ShouldReadIdentifier()
         {
-            return CanRead(expression, cursor) &&
+            return CanRead() &&
                     TokenConstants.IdentifierPattern.IsMatch(expression[cursor].ToString());
         }
     }

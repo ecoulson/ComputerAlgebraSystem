@@ -1,15 +1,15 @@
 ﻿using System;
 namespace ExpressionParser.SyntaxTree
 {
-    public class SyntaxNode
+    public abstract class SyntaxNode
     {
-        public string data;
-        public SyntaxNode left;
-        public SyntaxNode right;
+        public SyntaxNodeType Type { get; }
+        public SyntaxNode Left { get; set; }
+        public SyntaxNode Right { get; set; }
 
-        public SyntaxNode()
+        public SyntaxNode(SyntaxNodeType type)
         {
-
+            Type = type;
         }
     }
 }

@@ -8,8 +8,7 @@ namespace ExpressionParser.Parser
     {
         public static Expression ParseExpression(string expression)
         {
-            SyntaxTreeBuilder treeBuilder = new SyntaxTreeBuilder();
-            SyntaxNode root = treeBuilder.BuildTree(Lexer.Lex(expression));
+            SyntaxNode root = SyntaxTreeBuilder.BuildTree(Lexer.Lex(expression));
             return null;
         }
     }

@@ -15,6 +15,6 @@ namespace ExpressionParser.Lex
 
         public static readonly Regex NumberPattern = new Regex("\\d");
         public static readonly Regex WhiteSpacePattern = new Regex("\\s");
-        public static readonly Regex IdentifierPattern = new Regex("[A-Za-z_\\]");
+        public static readonly Regex IdentifierPattern = new Regex("[A-Za-z_\\\\]");
     }
 }
