@@ -5,6 +5,7 @@ namespace ExpressionParser.SyntaxTree
     {
         Identifier,
         Function,
-        Number
+        Number,
+        Operator
     }
 }

@@ -45,6 +45,9 @@
     <Compile Include="SyntaxTree\IdentifierNode.cs" />
     <Compile Include="SyntaxTree\FunctionNode.cs" />
     <Compile Include="SyntaxTree\NumberNode.cs" />
+    <Compile Include="SyntaxTree\OperatorNode.cs" />
+    <Compile Include="SyntaxTree\Operator.cs" />
+    <Compile Include="SyntaxTree\SyntaxTreeConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />

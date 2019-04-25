@@ -25,6 +25,105 @@ namespace ExpressionParser.Tests.SyntaxTree
 
         #endregion
 
+        #region Factor Nonterminal Tests
+
+        [Test]
+        public void BuildTree_SingleFactor_ReturnsNumberNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1")
+            };
+
+            NumberNode node = (NumberNode)SyntaxTreeBuilder.BuildTree(tokens);
+
+            Assert.NotNull(node);
+            Assert.AreEqual(SyntaxNodeType.Number, node.Type);
+            Assert.AreEqual(1, node.Value);
+        }
+
+        [Test]
+        public void BuildTree_Multiplication_ReturnsOperatorNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Multiply, ""),
+                new Token(TokenType.Number, "2")
+            };
+
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode lhsNode = (NumberNode)node.Left;
+            NumberNode rhsNode = (NumberNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, lhsNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, rhsNode.Type);
+
+            Assert.AreEqual(Operator.Multiplication, node.Operator);
+            Assert.AreEqual(1, lhsNode.Value);
+            Assert.AreEqual(2, rhsNode.Value);
+        }
+
+        [Test]
+        public void BuildTree_ShorthandMultiplicationWithVariables_ReturnsMultiplicationTree()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "2"),
+                new Token(TokenType.Identifier, "x")
+            };
+
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode lhsNode = (NumberNode)node.Left;
+            IdentifierNode rhsNode = (IdentifierNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, lhsNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Identifier, rhsNode.Type);
+
+            Assert.AreEqual(Operator.Multiplication, node.Operator);
+            Assert.AreEqual(2, lhsNode.Value);
+            Assert.AreEqual("x", rhsNode.Value);
+        }
+
+        [Test]
+        public void BuildTree_Division_ReturnsOperatorNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Divide, ""),
+                new Token(TokenType.Number, "2")
+            };
+
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode lhsNode = (NumberNode)node.Left;
+            NumberNode rhsNode = (NumberNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, lhsNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, rhsNode.Type);
+
+            Assert.AreEqual(Operator.Division, node.Operator);
+            Assert.AreEqual(1, lhsNode.Value);
+            Assert.AreEqual(2, rhsNode.Value);
+        }
+
+        #endregion
+
         #region Formal Nonterminal Tests
 
         [Test]
