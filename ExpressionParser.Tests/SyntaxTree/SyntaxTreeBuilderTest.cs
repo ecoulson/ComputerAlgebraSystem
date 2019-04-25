@@ -9,7 +9,7 @@ namespace ExpressionParser.Tests.SyntaxTree
     [TestFixture]
     public class SyntaxTreeBuilderTest
     {
-        #region Expression Nonterminal Tests
+        #region Tree Tests
 
         [Test]
         public void BuildTree_EmptyExpression_ReturnsEmptyExpressionTree()
@@ -23,9 +23,119 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.AreEqual("Unexpected end of token stream", exception.Message);
         }
 
+        [Test]
+        public void BuildTree_MultipleAdditions_ReturnsOperatorNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Number, "2"),
+                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Number, "3"),
+            };
+
+            OperatorNode op1 = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode n3 = (NumberNode)op1.Right;
+            OperatorNode op2 = (OperatorNode)op1.Left;
+            NumberNode n2 = (NumberNode)op2.Right;
+            NumberNode n1 = (NumberNode)op2.Left;
+
+            Assert.NotNull(op1);
+            Assert.NotNull(op2);
+            Assert.NotNull(n1);
+            Assert.NotNull(n2);
+            Assert.NotNull(n3);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, op1.Type);
+            Assert.AreEqual(SyntaxNodeType.Operator, op2.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, n1.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, n2.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, n3.Type);
+
+            Assert.AreEqual(Operator.Addition, op1.Operator);
+            Assert.AreEqual(Operator.Addition, op2.Operator);
+            Assert.AreEqual(1, n1.Value);
+            Assert.AreEqual(2, n2.Value);
+            Assert.AreEqual(3, n3.Value);
+        }
+
         #endregion
 
-        #region Factor Nonterminal Tests
+        #region Expression Nonterminal Tests
+
+        [Test]
+        public void BuildTree_SimpleExpression_ReturnsIdentifier()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Identifier, "a"),
+            };
+
+            IdentifierNode node = (IdentifierNode)SyntaxTreeBuilder.BuildTree(tokens);
+
+            Assert.NotNull(node);
+            Assert.AreEqual(SyntaxNodeType.Identifier, node.Type);
+            Assert.AreEqual("a", node.Value);
+        }
+
+        [Test]
+        public void BuildTree_Addition_ReturnsOperatorNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Number, "2")
+            };
+
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode lhsNode = (NumberNode)node.Left;
+            NumberNode rhsNode = (NumberNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, lhsNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, rhsNode.Type);
+
+            Assert.AreEqual(Operator.Addition, node.Operator);
+            Assert.AreEqual(1, lhsNode.Value);
+            Assert.AreEqual(2, rhsNode.Value);
+        }
+
+        [Test]
+        public void BuildTree_Subtraction_ReturnsOperatorNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Subtraction, ""),
+                new Token(TokenType.Number, "2")
+            };
+
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode lhsNode = (NumberNode)node.Left;
+            NumberNode rhsNode = (NumberNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, lhsNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, rhsNode.Type);
+
+            Assert.AreEqual(Operator.Subtraction, node.Operator);
+            Assert.AreEqual(1, lhsNode.Value);
+            Assert.AreEqual(2, rhsNode.Value);
+        }
+
+        #endregion
+
+        #region Term Nonterminal Tests
 
         [Test]
         public void BuildTree_SingleFactor_ReturnsNumberNode()
@@ -124,6 +234,52 @@ namespace ExpressionParser.Tests.SyntaxTree
 
         #endregion
 
+        #region Factor Nonterminal Tests
+
+        [Test]
+        public void BuildTree_NoExponentiation_ReturnsNumberNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+            };
+
+            NumberNode node = (NumberNode)SyntaxTreeBuilder.BuildTree(tokens);
+
+            Assert.NotNull(node);
+            Assert.AreEqual(SyntaxNodeType.Number, node.Type);
+            Assert.AreEqual(1, node.Value);
+        }
+
+        [Test]
+        public void BuildTree_Exponentiation_ReturnsOperatorNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Number, "1"),
+                new Token(TokenType.Exponent, ""),
+                new Token(TokenType.Number, "2")
+            };
+
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode lhsNode = (NumberNode)node.Left;
+            NumberNode rhsNode = (NumberNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, lhsNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, rhsNode.Type);
+
+            Assert.AreEqual(Operator.Exponentiation, node.Operator);
+            Assert.AreEqual(1, lhsNode.Value);
+            Assert.AreEqual(2, rhsNode.Value);
+        }
+
+        #endregion
+
         #region Formal Nonterminal Tests
 
         [Test]
@@ -152,14 +308,14 @@ namespace ExpressionParser.Tests.SyntaxTree
             {
                 new Token(TokenType.LeftParentheses, ""),
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Addition, "")
+                new Token(TokenType.Number, "1")
             };
 
             UnexpectedTokenException exception = Assert.Throws<UnexpectedTokenException>(
                 () => SyntaxTreeBuilder.BuildTree(tokens)
             );
 
-            Assert.AreEqual("Expected 'RightParentheses' token, but got 'Addition' instead.", exception.Message);
+            Assert.AreEqual("Expected 'RightParentheses' token, but got 'Number' instead.", exception.Message);
         }
 
         [Test]
@@ -269,14 +425,14 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Identifier, "sin"),
                 new Token(TokenType.LeftParentheses, ""),
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Number, "1"),
             };
 
             UnexpectedTokenException exception = Assert.Throws<UnexpectedTokenException>(
                 () => SyntaxTreeBuilder.BuildTree(tokens)
             );
 
-            Assert.AreEqual($"Expected 'RightParentheses' token, but got 'Addition' instead.", exception.Message);
+            Assert.AreEqual($"Expected 'RightParentheses' token, but got 'Number' instead.", exception.Message);
         }
 
         #endregion

@@ -17,30 +17,50 @@ namespace ExpressionParser.SyntaxTree
             return ReadExpression();
         }
 
+        #region Expression Nonterminal
+
         private static SyntaxNode ReadExpression()
         {
             AssertNotEndOfStream();
-            SyntaxNode rootNode = ReadTerm();
-            return rootNode;
+            SyntaxNode root = ReadTerm();
+            while (NextTokenIsTermOperator())
+            {
+                AssertNotEndOfStream();
+                AssertIsTypeOfOne(PeekToken(), SyntaxTreeConstants.TermOperatorTypes);
+
+                SyntaxNode operatorNode = new OperatorNode(NextToken());
+
+                operatorNode.Left = root;
+                root = operatorNode;
+                root.Right = ReadTerm();
+            }
+            return root;
         }
+
+        private static bool NextTokenIsTermOperator()
+        {
+            return HasTokens() && IsTypeOfOne(PeekToken(), SyntaxTreeConstants.TermOperatorTypes);
+        }
+
+        #endregion
 
         #region Term Nonterminal
 
         private static SyntaxNode ReadTerm()
         {
             AssertNotEndOfStream();
-            SyntaxNode rootNode = ReadFactor();
+            SyntaxNode root = ReadFactor();
 
             if (IsNextTokenFactorOperator())
             {
-                rootNode = ReadComplexFactor(rootNode);
+                root = ReadComplexFactor(root);
             }
             else if (IsNextTokenAShorthandFactor())
             {
-                rootNode = ReadShortHandFactor(rootNode);
+                root = ReadShortHandFactor(root);
             }
 
-            return rootNode;
+            return root;
         }
 
         private static bool IsNextTokenFactorOperator()
@@ -67,19 +87,17 @@ namespace ExpressionParser.SyntaxTree
             return HasTokens() && IsTypeOf(PeekToken(), TokenType.Identifier);
         }
 
-        private static SyntaxNode ReadShortHandFactor(SyntaxNode rootNode)
+        private static SyntaxNode ReadShortHandFactor(SyntaxNode root)
         {
             AssertNotEndOfStream();
             AssertIsTypeOf(PeekToken(), TokenType.Identifier);
 
-            SyntaxNode multiplyNode = new OperatorNode(
-                new Token(TokenType.Multiply, "")
-            );
+            SyntaxNode multiplyNode = new OperatorNode(SyntaxTreeConstants.MultiplyToken);
 
-            multiplyNode.Left = rootNode;
-            rootNode = multiplyNode;
-            rootNode.Right = ReadFactor();
-            return rootNode;
+            multiplyNode.Left = root;
+            root = multiplyNode;
+            root.Right = ReadFactor();
+            return root;
         }
 
         #endregion
@@ -88,7 +106,23 @@ namespace ExpressionParser.SyntaxTree
 
         private static SyntaxNode ReadFactor()
         {
-            return ReadFormal();
+            AssertNotEndOfStream();
+            SyntaxNode root = ReadFormal();
+            if (NextTokenIsExponentOperator()) {
+                AssertNotEndOfStream();
+                AssertIsTypeOf(PeekToken(), TokenType.Exponent);
+
+                SyntaxNode operatorNode = new OperatorNode(NextToken());
+                operatorNode.Left = root;
+                root = operatorNode;
+                root.Right = ReadFormal();
+            }
+            return root;
+        }
+
+        private static bool NextTokenIsExponentOperator()
+        {
+            return HasTokens() && IsTypeOf(PeekToken(), TokenType.Exponent);
         }
 
         #endregion
@@ -97,6 +131,7 @@ namespace ExpressionParser.SyntaxTree
 
         private static SyntaxNode ReadFormal()
         {
+            AssertNotEndOfStream();
             switch (PeekToken().Type)
             {
                 case TokenType.LeftParentheses:
@@ -132,13 +167,19 @@ namespace ExpressionParser.SyntaxTree
         private static SyntaxNode HandleFormalIdentifierAmbiguity()
         {
             AssertNotEndOfStream();
+
             Token identifer = NextToken();
             AssertIsTypeOf(identifer, TokenType.Identifier);
 
-            if (HasTokens() && IsTypeOf(PeekToken(), TokenType.LeftParentheses))
+            if (IdentifierIsAFunction())
                 return ReadFunction(identifer);
 
             return new IdentifierNode(identifer);
+        }
+
+        private static bool IdentifierIsAFunction()
+        {
+            return HasTokens() && IsTypeOf(PeekToken(), TokenType.LeftParentheses);
         }
 
         private static SyntaxNode ReadFunction(Token nameToken)
