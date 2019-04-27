@@ -37,6 +37,7 @@
     <Compile Include="Lex\LexerTest.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilderTest.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilderComplexTests.cs" />
+    <Compile Include="Parser\EnvironmentTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
@@ -47,6 +48,7 @@
   <ItemGroup>
     <Folder Include="Lex\" />
     <Folder Include="SyntaxTree\" />
+    <Folder Include="Parser\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

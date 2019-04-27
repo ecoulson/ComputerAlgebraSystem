@@ -41,22 +41,11 @@ namespace ExpressionParser.Parser
             return symbols;
         }
 
-        public bool IsSymbol(string symbol)
+        public EnvironmentVariable Get(string symbol)
         {
-            return mapping.ContainsKey(symbol) && 
-                mapping[symbol].Type == EnvironmentVariableType.Symbol;
-        }
-
-        public bool IsValue(string symbol)
-        {
-            return mapping.ContainsKey(symbol) &&
-                mapping[symbol].Type == EnvironmentVariableType.Number;
-        }
-
-        public bool IsFunction(string symbol)
-        {
-            return mapping.ContainsKey(symbol) &&
-                mapping[symbol].Type == EnvironmentVariableType.Function;
+            if (mapping.ContainsKey(symbol))
+                return mapping[symbol];
+            throw new ArgumentException($"Unknown variable '{symbol}' not found in environment");
         }
     }
 }
