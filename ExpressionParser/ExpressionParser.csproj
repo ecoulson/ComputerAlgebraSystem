@@ -50,6 +50,8 @@
     <Compile Include="SyntaxTree\SyntaxTreeConstants.cs" />
     <Compile Include="Semantics\SemanticAnalyzer.cs" />
     <Compile Include="Parser\Environment.cs" />
+    <Compile Include="Parser\EnvironmentVariableType.cs" />
+    <Compile Include="Parser\EnvironmentVariable.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
