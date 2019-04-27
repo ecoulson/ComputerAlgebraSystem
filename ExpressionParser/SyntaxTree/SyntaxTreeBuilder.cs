@@ -51,13 +51,16 @@ namespace ExpressionParser.SyntaxTree
             AssertNotEndOfStream();
             SyntaxNode root = ReadFactor();
 
-            if (IsNextTokenFactorOperator())
+            while (IsNextTokenFactorOperator() || IsNextTokenAShorthandFactor())
             {
-                root = ReadComplexFactor(root);
-            }
-            else if (IsNextTokenAShorthandFactor())
-            {
-                root = ReadShortHandFactor(root);
+                if (IsNextTokenFactorOperator())
+                {
+                    root = ReadComplexFactor(root);
+                }
+                else if (IsNextTokenAShorthandFactor())
+                {
+                    root = ReadShortHandFactor(root);
+                }
             }
 
             return root;
@@ -67,6 +70,14 @@ namespace ExpressionParser.SyntaxTree
         {
             return HasTokens() &&
                     IsTypeOfOne(PeekToken(), SyntaxTreeConstants.FactorOperatorTypes);
+        }
+
+        private static bool IsNextTokenAShorthandFactor()
+        {
+            return HasTokens() && (
+                IsTypeOf(PeekToken(), TokenType.Identifier) || 
+                IsTypeOf(PeekToken(), TokenType.LeftParentheses)
+            );
         }
 
         private static SyntaxNode ReadComplexFactor(SyntaxNode rootNode)
@@ -82,15 +93,10 @@ namespace ExpressionParser.SyntaxTree
             return rootNode;
         }
 
-        private static bool IsNextTokenAShorthandFactor()
-        {
-            return HasTokens() && IsTypeOf(PeekToken(), TokenType.Identifier);
-        }
-
         private static SyntaxNode ReadShortHandFactor(SyntaxNode root)
         {
             AssertNotEndOfStream();
-            AssertIsTypeOf(PeekToken(), TokenType.Identifier);
+            AssertIsTypeOfOne(PeekToken(), SyntaxTreeConstants.ShorthandFactorOperatorTypes);
 
             SyntaxNode multiplyNode = new OperatorNode(SyntaxTreeConstants.MultiplyToken);
 
@@ -108,7 +114,7 @@ namespace ExpressionParser.SyntaxTree
         {
             AssertNotEndOfStream();
             SyntaxNode root = ReadFormal();
-            if (NextTokenIsExponentOperator()) {
+            while (NextTokenIsExponentOperator()) {
                 AssertNotEndOfStream();
                 AssertIsTypeOf(PeekToken(), TokenType.Exponent);
 
@@ -193,7 +199,7 @@ namespace ExpressionParser.SyntaxTree
             AssertNotEndOfStream();
             AssertIsTypeOf(NextToken(), TokenType.RightParentheses);
 
-            return new FunctionNode(new IdentifierNode(nameToken), functionExpression);
+            return new FunctionOrDistributionNode(new IdentifierNode(nameToken), functionExpression);
         }
 
         #endregion

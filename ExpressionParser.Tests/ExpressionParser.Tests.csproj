@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Lex\LexerTest.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilderTest.cs" />
+    <Compile Include="SyntaxTree\SyntaxTreeBuilderComplexTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">

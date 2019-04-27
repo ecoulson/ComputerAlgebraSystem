@@ -43,17 +43,19 @@
     <Compile Include="SyntaxTree\SyntaxNodeType.cs" />
     <Compile Include="SyntaxTree\EndOfTokenStreamException.cs" />
     <Compile Include="SyntaxTree\IdentifierNode.cs" />
-    <Compile Include="SyntaxTree\FunctionNode.cs" />
+    <Compile Include="SyntaxTree\FunctionOrDistributionNode.cs" />
     <Compile Include="SyntaxTree\NumberNode.cs" />
     <Compile Include="SyntaxTree\OperatorNode.cs" />
     <Compile Include="SyntaxTree\Operator.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeConstants.cs" />
+    <Compile Include="Environment\Environment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
     <Folder Include="Parser\" />
     <Folder Include="Expression\" />
     <Folder Include="SyntaxTree\" />
+    <Folder Include="Environment\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

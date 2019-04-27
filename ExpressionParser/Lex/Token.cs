@@ -7,6 +7,11 @@ namespace ExpressionParser.Lex
         public string Value { get; }
         public TokenType Type { get; }
 
+        public Token(TokenType type)
+        {
+            this.Type = type;
+        }
+
         public Token(TokenType type, string value)
         {
             this.Value = value;

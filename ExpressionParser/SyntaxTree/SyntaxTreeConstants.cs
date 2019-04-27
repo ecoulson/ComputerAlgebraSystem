@@ -18,6 +18,12 @@ namespace ExpressionParser.SyntaxTree
             TokenType.Divide
         };
 
+        public static readonly List<TokenType> ShorthandFactorOperatorTypes = new List<TokenType>
+        {
+            TokenType.Identifier,
+            TokenType.LeftParentheses
+        };
+
         public static readonly List<TokenType> FormalTokenTypes = new List<TokenType>
         {
             TokenType.LeftParentheses,
