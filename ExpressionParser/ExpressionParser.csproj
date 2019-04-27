@@ -48,14 +48,15 @@
     <Compile Include="SyntaxTree\OperatorNode.cs" />
     <Compile Include="SyntaxTree\Operator.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeConstants.cs" />
-    <Compile Include="Environment\Environment.cs" />
+    <Compile Include="Semantics\SemanticAnalyzer.cs" />
+    <Compile Include="Parser\Environment.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
     <Folder Include="Parser\" />
     <Folder Include="Expression\" />
     <Folder Include="SyntaxTree\" />
-    <Folder Include="Environment\" />
+    <Folder Include="Semantics\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
