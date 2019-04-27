@@ -31,6 +31,6 @@ namespace ExpressionParser.SyntaxTree
             TokenType.Number
         };
 
-        public static readonly Token MultiplyToken = new Token(TokenType.Multiply, "");
+        public static readonly Token MultiplyToken = new Token(TokenType.Multiply);
     }
 }

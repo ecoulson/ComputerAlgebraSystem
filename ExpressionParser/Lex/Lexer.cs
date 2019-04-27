@@ -33,19 +33,19 @@ namespace ExpressionParser.Lex
             switch (currentCharacter)
             {
                 case TokenConstants.Divide:
-                    return new Token(TokenType.Divide, "");
+                    return new Token(TokenType.Divide);
                 case TokenConstants.Multiply:
-                    return new Token(TokenType.Multiply, "");
+                    return new Token(TokenType.Multiply);
                 case TokenConstants.Addition:
-                    return new Token(TokenType.Addition, "");
+                    return new Token(TokenType.Addition);
                 case TokenConstants.Subtraction:
-                    return new Token(TokenType.Subtraction, "");
+                    return new Token(TokenType.Subtraction);
                 case TokenConstants.Exponent:
-                    return new Token(TokenType.Exponent, "");
+                    return new Token(TokenType.Exponent);
                 case TokenConstants.RightParentheses:
-                    return new Token(TokenType.RightParentheses, "");
+                    return new Token(TokenType.RightParentheses);
                 case TokenConstants.LeftParentheses:
-                    return new Token(TokenType.LeftParentheses, "");
+                    return new Token(TokenType.LeftParentheses);
 
             }
 
@@ -55,7 +55,7 @@ namespace ExpressionParser.Lex
             }
             if (TokenConstants.WhiteSpacePattern.IsMatch(currentCharacter.ToString()))
             {
-                return new Token(TokenType.WhiteSpace, "");
+                return new Token(TokenType.WhiteSpace);
             }
             return ReadIdentifier();
         }
