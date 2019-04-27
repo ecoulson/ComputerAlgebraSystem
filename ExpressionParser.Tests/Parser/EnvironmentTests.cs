@@ -50,5 +50,23 @@ namespace ExpressionParser.Tests.Parser
                 EnvironmentVariable variable = environment.Get("x");
             });
         }
+
+        [Test]
+        public void HasVariavle_SymbolExists_ReturnsTrue()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+
+            Assert.True(environment.HasVariable("x"));
+        }
+
+        [Test]
+        public void HasVariavle_SymbolDoesNotExists_ReturnsFalse()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+
+            Assert.True(environment.HasVariable("x"));
+        }
     }
 }

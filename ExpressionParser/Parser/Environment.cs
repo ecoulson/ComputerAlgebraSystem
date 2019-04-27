@@ -47,5 +47,11 @@ namespace ExpressionParser.Parser
                 return mapping[symbol];
             throw new ArgumentException($"Unknown variable '{symbol}' not found in environment");
         }
+
+
+        public bool HasVariable(string symbol)
+        {
+            return mapping.ContainsKey(symbol);
+        }
     }
 }

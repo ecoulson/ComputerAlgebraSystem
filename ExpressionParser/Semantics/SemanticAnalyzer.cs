@@ -1,10 +1,13 @@
-﻿using System;
+﻿using ExpressionParser.Parser;
+using ExpressionParser.SyntaxTree;
+
 namespace ExpressionParser.Semantics
 {
-    public class SemanticAnalyzer
+    public static class SemanticAnalyzer
     {
-        public SemanticAnalyzer()
+        public static SyntaxNode Analyze(SyntaxNode root, Environment environment)
         {
+            return null;
         }
     }
 }

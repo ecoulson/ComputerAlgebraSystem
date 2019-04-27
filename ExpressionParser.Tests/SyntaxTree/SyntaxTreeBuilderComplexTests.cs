@@ -29,9 +29,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Addition),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Addition),
                 new Token(TokenType.Number, "3"),
             };
 
@@ -66,9 +66,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Subtraction, ""),
+                new Token(TokenType.Subtraction),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Subtraction, ""),
+                new Token(TokenType.Subtraction),
                 new Token(TokenType.Number, "3"),
             };
 
@@ -103,9 +103,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Addition),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Subtraction, ""),
+                new Token(TokenType.Subtraction),
                 new Token(TokenType.Number, "3"),
             };
 
@@ -140,9 +140,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Multiply, ""),
+                new Token(TokenType.Multiply),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Multiply, ""),
+                new Token(TokenType.Multiply),
                 new Token(TokenType.Number, "3"),
             };
 
@@ -177,9 +177,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Divide, ""),
+                new Token(TokenType.Divide),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Divide, ""),
+                new Token(TokenType.Divide),
                 new Token(TokenType.Number, "3"),
             };
 
@@ -215,7 +215,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             {
                 new Token(TokenType.Number, "1"),
                 new Token(TokenType.Identifier, "x"),
-                new Token(TokenType.Multiply, ""),
+                new Token(TokenType.Multiply),
                 new Token(TokenType.Number, "2"),
                 new Token(TokenType.Identifier, "y"),
             };
@@ -260,9 +260,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             {
                 new Token(TokenType.Number, "1"),
                 new Token(TokenType.Identifier, "x"),
-                new Token(TokenType.Divide, ""),
+                new Token(TokenType.Divide),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Multiply, ""),
+                new Token(TokenType.Multiply),
                 new Token(TokenType.Identifier, "y"),
             };
 
@@ -305,9 +305,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Exponent, ""),
+                new Token(TokenType.Exponent),
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.Exponent, ""),
+                new Token(TokenType.Exponent),
                 new Token(TokenType.Number, "3"),
             };
 

@@ -32,7 +32,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Addition, ""),
+                new Token(TokenType.Addition),
                 new Token(TokenType.Number, "2")
             };
 
@@ -59,7 +59,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Subtraction, ""),
+                new Token(TokenType.Subtraction),
                 new Token(TokenType.Number, "2")
             };
 
@@ -105,7 +105,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Multiply, ""),
+                new Token(TokenType.Multiply),
                 new Token(TokenType.Number, "2")
             };
 
@@ -158,9 +158,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "2"),
-                new Token(TokenType.LeftParentheses, ""),
+                new Token(TokenType.LeftParentheses),
                 new Token(TokenType.Identifier, "x"),
-                new Token(TokenType.RightParentheses, "")
+                new Token(TokenType.RightParentheses)
             };
 
             OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
@@ -186,7 +186,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Divide, ""),
+                new Token(TokenType.Divide),
                 new Token(TokenType.Number, "2")
             };
 
@@ -232,7 +232,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.Exponent, ""),
+                new Token(TokenType.Exponent),
                 new Token(TokenType.Number, "2")
             };
 
@@ -262,7 +262,7 @@ namespace ExpressionParser.Tests.SyntaxTree
         {
             List<Token> tokens = new List<Token>
             {
-                new Token(TokenType.Addition, "")
+                new Token(TokenType.Addition)
             };
 
             UnexpectedTokenException exception = Assert.Throws<UnexpectedTokenException>(
@@ -281,7 +281,7 @@ namespace ExpressionParser.Tests.SyntaxTree
         {
             List<Token> tokens = new List<Token>
             {
-                new Token(TokenType.LeftParentheses, ""),
+                new Token(TokenType.LeftParentheses),
                 new Token(TokenType.Number, "1"),
                 new Token(TokenType.Number, "1")
             };
@@ -298,7 +298,7 @@ namespace ExpressionParser.Tests.SyntaxTree
         {
             List<Token> tokens = new List<Token>
             {
-                new Token(TokenType.LeftParentheses, ""),
+                new Token(TokenType.LeftParentheses),
                 new Token(TokenType.Number, "1"),
             };
 
@@ -314,9 +314,9 @@ namespace ExpressionParser.Tests.SyntaxTree
         {
             List<Token> tokens = new List<Token>
             {
-                new Token(TokenType.LeftParentheses, ""),
+                new Token(TokenType.LeftParentheses),
                 new Token(TokenType.Number, "1"),
-                new Token(TokenType.RightParentheses, "")
+                new Token(TokenType.RightParentheses)
             };
 
             NumberNode node = (NumberNode)SyntaxTreeBuilder.BuildTree(tokens);
@@ -374,9 +374,9 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
         {
             new Token(TokenType.Identifier, "sin"),
-            new Token(TokenType.LeftParentheses, ""),
+            new Token(TokenType.LeftParentheses),
             new Token(TokenType.Number, "1"),
-            new Token(TokenType.RightParentheses, ""),
+            new Token(TokenType.RightParentheses),
         };
 
             SyntaxNode functionNode = SyntaxTreeBuilder.BuildTree(tokens);
@@ -398,7 +398,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Identifier, "sin"),
-                new Token(TokenType.LeftParentheses, ""),
+                new Token(TokenType.LeftParentheses),
                 new Token(TokenType.Number, "1"),
                 new Token(TokenType.Number, "1"),
             };
