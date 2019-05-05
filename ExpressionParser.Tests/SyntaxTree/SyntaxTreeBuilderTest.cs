@@ -345,6 +345,22 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.AreEqual(1, node.Value);
         }
 
+        [Test]
+        public void BuildTree_NegativeNumber_ReturnsNumberNode()
+        {
+            List<Token> tokens = new List<Token>
+            {
+                new Token(TokenType.Subtraction),
+                new Token(TokenType.Number, "1")
+            };
+
+            NumberNode node = (NumberNode)SyntaxTreeBuilder.BuildTree(tokens);
+
+            Assert.NotNull(node);
+            Assert.AreEqual(SyntaxNodeType.Number, node.Type);
+            Assert.AreEqual(-1, node.Value);
+        }
+
         #endregion
 
         #region Identifier Terminal Tests
@@ -383,7 +399,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             IdentifierNode functionNameNode = (IdentifierNode)functionNode.Left;
             NumberNode functionCallValue = (NumberNode)functionNode.Right;
 
-            Assert.AreEqual(SyntaxNodeType.Function, functionNode.Type);
+            Assert.AreEqual(SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication, functionNode.Type);
             Assert.NotNull(functionNode.Left);
             Assert.AreEqual(SyntaxNodeType.Identifier, functionNameNode.Type);
             Assert.AreEqual("sin", functionNameNode.Value);

@@ -414,7 +414,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.AreEqual(SyntaxNodeType.Identifier, i7.Type);
             Assert.AreEqual(SyntaxNodeType.Number, n1.Type);
             Assert.AreEqual(SyntaxNodeType.Number, n2.Type);
-            Assert.AreEqual(SyntaxNodeType.Function, f1.Type);
+            Assert.AreEqual(SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication, f1.Type);
 
             Assert.AreEqual(Operator.Addition, op1.Operator);
             Assert.AreEqual(Operator.Multiplication, op2.Operator);

@@ -11,5 +11,14 @@ namespace ExpressionParser.SyntaxTree
         {
             Value = double.Parse(token.Value);
         }
+
+        public NumberNode(double? value) : base (SyntaxNodeType.Number)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException();
+            }
+            Value = (double)value;
+        }
     }
 }

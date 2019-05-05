@@ -142,13 +142,12 @@ namespace ExpressionParser.SyntaxTree
             {
                 case TokenType.LeftParentheses:
                     return ReadParenthesizedExpression();
-
                 case TokenType.Identifier:
                     return HandleFormalIdentifierAmbiguity();
-
                 case TokenType.Number:
                     return new NumberNode(NextToken());
-
+                case TokenType.Subtraction:
+                    return ReadNegativeNumber();
                 default:
                     throw new UnexpectedTokenException(
                         SyntaxTreeConstants.FormalTokenTypes, 
@@ -200,6 +199,17 @@ namespace ExpressionParser.SyntaxTree
             AssertIsTypeOf(NextToken(), TokenType.RightParentheses);
 
             return new FunctionOrDistributionNode(new IdentifierNode(nameToken), functionExpression);
+        }
+
+        private static SyntaxNode ReadNegativeNumber()
+        {
+            AssertNotEndOfStream();
+            AssertIsTypeOf(NextToken(), TokenType.Subtraction);
+            AssertIsTypeOf(PeekToken(), TokenType.Number);
+
+            Token negativeToken = new Token(TokenType.Number, "-" + NextToken().Value);
+
+            return new NumberNode(negativeToken);
         }
 
         #endregion

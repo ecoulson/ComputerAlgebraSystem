@@ -53,6 +53,7 @@
     <Compile Include="Parser\EnvironmentVariableType.cs" />
     <Compile Include="Parser\EnvironmentVariable.cs" />
     <Compile Include="Semantics\UndefinedSymbolException.cs" />
+    <Compile Include="SyntaxTree\FunctionNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />

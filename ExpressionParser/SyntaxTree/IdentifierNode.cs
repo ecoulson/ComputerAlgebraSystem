@@ -11,5 +11,10 @@ namespace ExpressionParser.SyntaxTree
         {
             Value = token.Value;
         }
+
+        public IdentifierNode(string value) : base(SyntaxNodeType.Identifier)
+        {
+            Value = value;
+        }
     }
 }

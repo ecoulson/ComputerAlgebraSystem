@@ -5,6 +5,7 @@ namespace ExpressionParser.SyntaxTree
     {
         Identifier,
         Function,
+        AmbigiousFunctionOrShortHandMultiplication,
         Number,
         Operator
     }

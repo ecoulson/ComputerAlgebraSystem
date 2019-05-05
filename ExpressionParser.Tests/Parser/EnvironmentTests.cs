@@ -34,7 +34,7 @@ namespace ExpressionParser.Tests.Parser
         public void GetVariable_Function_ReturnsEnvironmentVariable()
         {
             Environment environment = new Environment();
-            environment.AddFunction("x", new Expression());
+            environment.AddFunction("x", new Expression(null));
 
             EnvironmentVariable variable = environment.Get("x");
 

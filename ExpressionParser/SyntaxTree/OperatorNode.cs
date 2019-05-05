@@ -30,5 +30,10 @@ namespace ExpressionParser.SyntaxTree
                     throw new Exception($"Illegal token of type '{token.Type}'");
             }
         }
+
+        public OperatorNode(Operator op) : base(SyntaxNodeType.Operator)
+        {
+            Operator = op;
+        }
     }
 }

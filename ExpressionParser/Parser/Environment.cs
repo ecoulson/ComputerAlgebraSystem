@@ -18,9 +18,9 @@ namespace ExpressionParser.Parser
             mapping[symbol] = new EnvironmentVariable(symbol);
         }
 
-        public void AddFunction(string name, Expression expression)
+        public void AddFunction(string symbol, Expression expression)
         {
-            mapping[name] = new EnvironmentVariable(expression);
+            mapping[symbol] = new EnvironmentVariable(expression);
         }
 
         public void AddValue(string symbol, double value)

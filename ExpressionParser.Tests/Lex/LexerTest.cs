@@ -123,7 +123,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.Divide, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -134,7 +134,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.Multiply, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.Addition, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.Subtraction, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.Exponent, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -178,7 +178,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.LeftParentheses, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace ExpressionParser.Tests.Lex
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
             Assert.AreEqual(TokenType.RightParentheses, tokens[0].Type);
-            Assert.AreEqual("", tokens[0].Value);
+            Assert.AreEqual(null, tokens[0].Value);
         }
 
         [Test]
@@ -211,13 +211,13 @@ namespace ExpressionParser.Tests.Lex
 
             Assert.AreEqual("1", tokens[0].Value);
             Assert.AreEqual("x", tokens[1].Value);
-            Assert.AreEqual("", tokens[2].Value);
-            Assert.AreEqual("", tokens[3].Value);
-            Assert.AreEqual("", tokens[4].Value);
-            Assert.AreEqual("", tokens[5].Value);
-            Assert.AreEqual("", tokens[6].Value);
-            Assert.AreEqual("", tokens[7].Value);
-            Assert.AreEqual("", tokens[8].Value);
+            Assert.AreEqual(null, tokens[2].Value);
+            Assert.AreEqual(null, tokens[3].Value);
+            Assert.AreEqual(null, tokens[4].Value);
+            Assert.AreEqual(null, tokens[5].Value);
+            Assert.AreEqual(null, tokens[6].Value);
+            Assert.AreEqual(null, tokens[7].Value);
+            Assert.AreEqual(null, tokens[8].Value);
         }
 
         [Test]
@@ -235,7 +235,7 @@ namespace ExpressionParser.Tests.Lex
 
             Assert.AreEqual("1234.5", tokens[0].Value);
             Assert.AreEqual("x", tokens[1].Value);
-            Assert.AreEqual("", tokens[2].Value);
+            Assert.AreEqual(null, tokens[2].Value);
             Assert.AreEqual("1.2345", tokens[3].Value);
         }
     }
