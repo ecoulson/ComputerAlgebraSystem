@@ -131,5 +131,27 @@ namespace ExpressionParser.Tests.Semantics
             Assert.AreEqual(2, lhs.Value);
             Assert.AreEqual(1, rhs.Value);
         }
+
+        [Test]
+        public void Analyze_RecognizeShorthandMultiplicationInsideIdentifer_ReturnsOperatorNode()
+        {
+            IdentifierNode symbol = new IdentifierNode("xy");
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+
+            OperatorNode operatorNode = (OperatorNode)SemanticAnalyzer.Analyze(symbol, environment);
+            IdentifierNode x = (IdentifierNode)operatorNode.Left;
+            IdentifierNode y = (IdentifierNode)operatorNode.Right;
+
+            Assert.NotNull(operatorNode);
+            Assert.NotNull(x);
+            Assert.NotNull(y);
+            Assert.AreEqual(Operator.Multiplication, operatorNode.Operator);
+            Assert.AreEqual(SyntaxNodeType.Identifier, x.Type);
+            Assert.AreEqual(SyntaxNodeType.Identifier, y.Type);
+            Assert.AreEqual("x", x.Value);
+            Assert.AreEqual("y", y.Value);
+        }
     }
 }

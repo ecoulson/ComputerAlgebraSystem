@@ -39,6 +39,7 @@
     <Compile Include="SyntaxTree\SyntaxTreeBuilderComplexTests.cs" />
     <Compile Include="Parser\EnvironmentTests.cs" />
     <Compile Include="Semantics\SemanticAnalyzerTest.cs" />
+    <Compile Include="Semantics\IdentifierResolverTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">

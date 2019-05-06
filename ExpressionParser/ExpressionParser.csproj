@@ -54,6 +54,8 @@
     <Compile Include="Parser\EnvironmentVariable.cs" />
     <Compile Include="Semantics\UndefinedSymbolException.cs" />
     <Compile Include="SyntaxTree\FunctionNode.cs" />
+    <Compile Include="Semantics\IdentifierResolver.cs" />
+    <Compile Include="Semantics\IdentifierResolution.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
