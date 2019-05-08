@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ExpressionParser.Parser;
+using ExpressionParser.Parsing;
 using ExpressionParser.SyntaxTree;
 
 namespace ExpressionParser.Semantics

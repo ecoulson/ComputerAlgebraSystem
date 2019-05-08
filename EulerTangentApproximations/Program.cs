@@ -1,5 +1,5 @@
 ﻿using System;
-using ExpressionParser.Parser;
+using ExpressionParser.Parsing;
 using ExpressionParser;
 using Input;
 using Mathematics;

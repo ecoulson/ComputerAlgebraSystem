@@ -2,27 +2,27 @@
 using System.Collections.Generic;
 using ExpressionParser.SyntaxTree;
 
-namespace ExpressionParser.Parser
+namespace ExpressionParser.Parsing
 {
     public class Environment
     {
-        private static readonly ISet<string> PredefinedFunctions = new HashSet<string>()
+        private static readonly Dictionary<string, EnvironmentVariable> PredefinedFunctions = new Dictionary<string, EnvironmentVariable>()
         {
-            "sin",
-            "cos",
-            "tan",
-            "csc",
-            "sec",
-            "cot",
-            "arcsin",
-            "arccos",
-            "arctan",
-            "arccsc",
-            "arcsec",
-            "arctan",
-            "ln",
-            "log",
-            "sqrt",
+            { "sin", new EnvironmentVariable(new Expression(null)) },
+            { "cos", new EnvironmentVariable(new Expression(null)) },
+            { "tan", new EnvironmentVariable(new Expression(null)) },
+            { "csc", new EnvironmentVariable(new Expression(null)) },
+            { "sec", new EnvironmentVariable(new Expression(null)) },
+            { "cot", new EnvironmentVariable(new Expression(null)) },
+            { "arcsin", new EnvironmentVariable(new Expression(null)) },
+            { "arccos", new EnvironmentVariable(new Expression(null)) },
+            { "arctan", new EnvironmentVariable(new Expression(null)) },
+            { "arccsc", new EnvironmentVariable(new Expression(null)) },
+            { "arcsec", new EnvironmentVariable(new Expression(null)) },
+            { "arccot", new EnvironmentVariable(new Expression(null)) },
+            { "ln", new EnvironmentVariable(new Expression(null)) },
+            { "log", new EnvironmentVariable(new Expression(null)) },
+            { "sqrt", new EnvironmentVariable(new Expression(null)) }
         };
 
         private static readonly Dictionary<string, EnvironmentVariable> PredefinedSymbols = new Dictionary<string, EnvironmentVariable>()
@@ -37,20 +37,30 @@ namespace ExpressionParser.Parser
         public Environment()
         {
             mapping = new Dictionary<string, EnvironmentVariable>(PredefinedSymbols);
+            foreach (KeyValuePair<string, EnvironmentVariable> pair in PredefinedFunctions)
+            {
+                mapping.Add(pair.Key, pair.Value);
+            }
         }
 
         public void AddSymbol(string symbol)
         {
+            if (mapping.ContainsKey(symbol))
+                throw new DefinedSymbolException(symbol);
             mapping[symbol] = new EnvironmentVariable(symbol);
         }
 
         public void AddFunction(string symbol, Expression expression)
         {
+            if (mapping.ContainsKey(symbol))
+                throw new DefinedSymbolException(symbol);
             mapping[symbol] = new EnvironmentVariable(expression);
         }
 
         public void AddValue(string symbol, double value)
         {
+            if (mapping.ContainsKey(symbol))
+                throw new DefinedSymbolException(symbol);
             mapping[symbol] = new EnvironmentVariable(value);
         }
 
@@ -82,7 +92,7 @@ namespace ExpressionParser.Parser
 
         public bool IsPredefinedFunction(string symbol)
         {
-            return PredefinedFunctions.Contains(symbol);
+            return PredefinedFunctions.ContainsKey(symbol);
         }
 
         public bool IsPredefinedSymbol(string symbol)

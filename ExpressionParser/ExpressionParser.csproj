@@ -34,7 +34,6 @@
     <Compile Include="Lex\Lexer.cs" />
     <Compile Include="Lex\Token.cs" />
     <Compile Include="Lex\TokenType.cs" />
-    <Compile Include="Parser\Parser.cs" />
     <Compile Include="Expression\Expression.cs" />
     <Compile Include="Lex\TokenConstants.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilder.cs" />
@@ -49,18 +48,20 @@
     <Compile Include="SyntaxTree\Operator.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeConstants.cs" />
     <Compile Include="Semantics\SemanticAnalyzer.cs" />
-    <Compile Include="Parser\Environment.cs" />
-    <Compile Include="Parser\EnvironmentVariableType.cs" />
-    <Compile Include="Parser\EnvironmentVariable.cs" />
+    <Compile Include="Parsing\Environment.cs" />
+    <Compile Include="Parsing\EnvironmentVariableType.cs" />
+    <Compile Include="Parsing\EnvironmentVariable.cs" />
     <Compile Include="Semantics\UndefinedSymbolException.cs" />
     <Compile Include="SyntaxTree\FunctionNode.cs" />
     <Compile Include="Semantics\IdentifierResolver.cs" />
     <Compile Include="Semantics\IdentifierResolution.cs" />
     <Compile Include="Semantics\AmbiguousIdentifierException.cs" />
+    <Compile Include="Parsing\DefinedSymbolException.cs" />
+    <Compile Include="Parsing\Parser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
-    <Folder Include="Parser\" />
+    <Folder Include="Parsing\" />
     <Folder Include="Expression\" />
     <Folder Include="SyntaxTree\" />
     <Folder Include="Semantics\" />

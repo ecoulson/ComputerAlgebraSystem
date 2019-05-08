@@ -16,5 +16,10 @@ namespace ExpressionParser
         {
             throw new NotImplementedException();
         }
+
+        public override string ToString()
+        {
+            return "";
+        }
     }
 }

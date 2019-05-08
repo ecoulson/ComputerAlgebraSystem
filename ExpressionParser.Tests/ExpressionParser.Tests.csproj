@@ -37,10 +37,10 @@
     <Compile Include="Lex\LexerTest.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilderTest.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilderComplexTests.cs" />
-    <Compile Include="Parser\EnvironmentTests.cs" />
+    <Compile Include="Parsing\EnvironmentTests.cs" />
     <Compile Include="Semantics\SemanticAnalyzerTest.cs" />
     <Compile Include="Semantics\IdentifierResolverTest.cs" />
-    <Compile Include="Parser\ParserTests.cs" />
+    <Compile Include="Parsing\ParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
@@ -51,7 +51,7 @@
   <ItemGroup>
     <Folder Include="Lex\" />
     <Folder Include="SyntaxTree\" />
-    <Folder Include="Parser\" />
+    <Folder Include="Parsing\" />
     <Folder Include="Semantics\" />
   </ItemGroup>
   <ItemGroup>

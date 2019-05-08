@@ -1,5 +1,5 @@
 ﻿using ExpressionParser.Lex;
-using ExpressionParser.Parser;
+using ExpressionParser.Parsing;
 using ExpressionParser.Semantics;
 using ExpressionParser.SyntaxTree;
 using NUnit.Framework;

@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ExpressionParser.Parser
+namespace ExpressionParser.Parsing
 {
     public class EnvironmentVariable
     {

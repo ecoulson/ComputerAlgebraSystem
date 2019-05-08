@@ -3,7 +3,7 @@ using ExpressionParser.Lex;
 using ExpressionParser.Semantics;
 using ExpressionParser.SyntaxTree;
 
-namespace ExpressionParser.Parser
+namespace ExpressionParser.Parsing
 {
     public static class Parser
     {
