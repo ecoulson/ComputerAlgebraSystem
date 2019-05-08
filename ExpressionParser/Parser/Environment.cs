@@ -6,11 +6,37 @@ namespace ExpressionParser.Parser
 {
     public class Environment
     {
+        private static readonly ISet<string> PredefinedFunctions = new HashSet<string>()
+        {
+            "sin",
+            "cos",
+            "tan",
+            "csc",
+            "sec",
+            "cot",
+            "arcsin",
+            "arccos",
+            "arctan",
+            "arccsc",
+            "arcsec",
+            "arctan",
+            "ln",
+            "log",
+            "sqrt",
+        };
+
+        private static readonly Dictionary<string, EnvironmentVariable> PredefinedSymbols = new Dictionary<string, EnvironmentVariable>()
+        {
+            { "e", new EnvironmentVariable(Math.E) },
+            { "pi", new EnvironmentVariable(Math.PI) },
+            { "i", new EnvironmentVariable("i") }
+        };
+
         private readonly Dictionary<string, EnvironmentVariable> mapping;
 
         public Environment()
         {
-            mapping = new Dictionary<string, EnvironmentVariable>();
+            mapping = new Dictionary<string, EnvironmentVariable>(PredefinedSymbols);
         }
 
         public void AddSymbol(string symbol)
@@ -31,11 +57,11 @@ namespace ExpressionParser.Parser
         public List<string> Symbols()
         {
             List<string> symbols = new List<string>();
-            foreach (KeyValuePair<string, EnvironmentVariable> variable in mapping)
+            foreach (KeyValuePair<string, EnvironmentVariable> pair in mapping)
             {
-                if (variable.Value.Type != EnvironmentVariableType.Function)
+                if (!pair.Value.IsTypeOf(EnvironmentVariableType.Function))
                 {
-                    symbols.Add(variable.Key);
+                    symbols.Add(pair.Key);
                 }
             }
             return symbols;
@@ -52,6 +78,21 @@ namespace ExpressionParser.Parser
         public bool HasVariable(string symbol)
         {
             return mapping.ContainsKey(symbol);
+        }
+
+        public bool IsPredefinedFunction(string symbol)
+        {
+            return PredefinedFunctions.Contains(symbol);
+        }
+
+        public bool IsPredefinedSymbol(string symbol)
+        {
+            return PredefinedSymbols.ContainsKey(symbol);
+        }
+
+        public bool IsKeyword(string symbol)
+        {
+            return IsPredefinedSymbol(symbol) || IsPredefinedFunction(symbol);
         }
     }
 }

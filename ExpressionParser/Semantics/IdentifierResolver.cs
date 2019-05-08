@@ -12,9 +12,7 @@ namespace ExpressionParser.Semantics
             {
                 IdentifierResolution resolution = new IdentifierResolution();
                 string symbol = symbols[i];
-
                 resolution.PushSymbol(symbol);
-                symbols.Remove(symbol);
 
                 if (symbol == toResolve)
                 {
@@ -24,8 +22,8 @@ namespace ExpressionParser.Semantics
                 {
                     Resolve(symbols, toResolve, resolutions, resolution);
                 }
+
                 resolution.PopSymbol();
-                symbols.Insert(i, symbol);
             }
             return resolutions;
         }
@@ -35,11 +33,9 @@ namespace ExpressionParser.Semantics
             for (int i = 0; i < symbols.Count; i++)
             {
                 string symbol = symbols[i];
-
                 currentResolution.PushSymbol(symbol);
-                symbols.Remove(symbol);
-
                 string shorthandMultiplication = currentResolution.ToShortHandMultiplication();
+
                 if (shorthandMultiplication == toResolve)
                 {
                     resolutions.Add(new IdentifierResolution(currentResolution));
@@ -50,7 +46,6 @@ namespace ExpressionParser.Semantics
                 }
 
                 currentResolution.PopSymbol();
-                symbols.Insert(i, symbol);
             }
         }
     }

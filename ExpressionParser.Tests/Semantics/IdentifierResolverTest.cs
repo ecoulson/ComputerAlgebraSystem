@@ -23,6 +23,20 @@ namespace ExpressionParser.Tests.Semantics
         }
 
         [Test]
+        public void Resolve_OneVariableRepeatedOneCombination_ReturnsListOfString()
+        {
+            List<string> symbols = new List<string>
+            {
+                "x"
+            };
+
+            List<IdentifierResolution> combinations = IdentifierResolver.Resolve(symbols, "xxx");
+
+            Assert.AreEqual(1, combinations.Count);
+            Assert.AreEqual("x, x, x", combinations[0].ToString());
+        }
+
+        [Test]
         public void Resolve_TwoVariablesOneCombination_ReturnsListOfString()
         {
             List<string> symbols = new List<string>

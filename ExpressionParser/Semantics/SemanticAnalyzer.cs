@@ -29,22 +29,11 @@ namespace ExpressionParser.Semantics
 
         private static SyntaxNode AnalyzeIdentifier(IdentifierNode node)
         {
-            if (environment.HasVariable(node.Value))
+            if (environment.IsKeyword(node.Value) || environment.HasVariable(node.Value))
             {
-                return AnalyzeEnvironmentVariable(node);
+                return node;
             }
             return AnalyzeAmbiguousIdentifier(node);
-        }
-
-        private static SyntaxNode AnalyzeEnvironmentVariable(IdentifierNode node)
-        {
-            EnvironmentVariable variable = environment.Get(node.Value);
-
-            if (variable.IsTypeOf(EnvironmentVariableType.Number))
-            {
-                return new NumberNode(variable.Value);
-            }
-            return node;
         }
 
         private static SyntaxNode AnalyzeAmbiguousIdentifier(IdentifierNode node)
@@ -65,8 +54,12 @@ namespace ExpressionParser.Semantics
         private static SyntaxNode AnalyzeAmbiguousFunctionOrDistribution(SyntaxNode node)
         {
             IdentifierNode symbol = (IdentifierNode)node.Left;
-            EnvironmentVariable definition = environment.Get(symbol.Value);
+            if (environment.IsPredefinedFunction(symbol.Value))
+            {
+                return CreateFunctionNode(symbol, node.Right);
+            }
 
+            EnvironmentVariable definition = environment.Get(symbol.Value);
             if (definition.IsTypeOf(EnvironmentVariableType.Function))
             {
                 return CreateFunctionNode(symbol, node.Right);
