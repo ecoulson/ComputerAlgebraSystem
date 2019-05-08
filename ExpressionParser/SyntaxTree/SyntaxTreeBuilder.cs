@@ -166,7 +166,7 @@ namespace ExpressionParser.SyntaxTree
             AssertNotEndOfStream();
             AssertIsTypeOf(NextToken(), TokenType.RightParentheses);
 
-            return expression;
+            return new ParenthesesNode(expression);
         }
 
         private static SyntaxNode HandleFormalIdentifierAmbiguity()

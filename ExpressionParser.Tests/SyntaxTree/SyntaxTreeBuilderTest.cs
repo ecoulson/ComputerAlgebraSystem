@@ -165,14 +165,17 @@ namespace ExpressionParser.Tests.SyntaxTree
 
             OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
             NumberNode n = (NumberNode)node.Left;
-            IdentifierNode i = (IdentifierNode)node.Right;
+            ParenthesesNode p = (ParenthesesNode)node.Right;
+            IdentifierNode i = (IdentifierNode)p.Left;
 
             Assert.NotNull(node);
             Assert.NotNull(n);
+            Assert.NotNull(p);
             Assert.NotNull(i);
 
             Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
             Assert.AreEqual(SyntaxNodeType.Number, n.Type);
+            Assert.AreEqual(SyntaxNodeType.Parentheses, p.Type);
             Assert.AreEqual(SyntaxNodeType.Identifier, i.Type);
 
             Assert.AreEqual(Operator.Multiplication, node.Operator);
@@ -319,11 +322,14 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.RightParentheses)
             };
 
-            NumberNode node = (NumberNode)SyntaxTreeBuilder.BuildTree(tokens);
+            ParenthesesNode node = (ParenthesesNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode number = (NumberNode)node.Left;
 
             Assert.NotNull(node);
-            Assert.AreEqual(SyntaxNodeType.Number, node.Type);
-            Assert.AreEqual(1, node.Value);
+            Assert.NotNull(number);
+            Assert.AreEqual(SyntaxNodeType.Parentheses, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, number.Type);
+            Assert.AreEqual(1, number.Value);
         }
 
         #endregion

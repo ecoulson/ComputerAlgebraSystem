@@ -35,5 +35,29 @@ namespace ExpressionParser.SyntaxTree
         {
             Operator = op;
         }
+
+        public override string ToString()
+        {
+            return $"{Left.ToString()} {OperatorToString()} {Right.ToString()}";
+        }
+
+        private string OperatorToString()
+        {
+            switch (Operator)
+            {
+                case Operator.Addition:
+                    return "+";
+                case Operator.Subtraction:
+                    return "-";
+                case Operator.Exponentiation:
+                    return "^";
+                case Operator.Multiplication:
+                    return "*";
+                case Operator.Division:
+                    return "/";
+                default:
+                    throw new ArgumentException("Unknown operator exception");
+            }
+        }
     }
 }

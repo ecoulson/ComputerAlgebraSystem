@@ -7,6 +7,7 @@ namespace ExpressionParser.SyntaxTree
         Function,
         AmbigiousFunctionOrShortHandMultiplication,
         Number,
-        Operator
+        Operator,
+        Parentheses
     }
 }

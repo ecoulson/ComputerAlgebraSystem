@@ -19,7 +19,7 @@ namespace ExpressionParser
 
         public override string ToString()
         {
-            return "";
+            return Tree.ToString();
         }
     }
 }

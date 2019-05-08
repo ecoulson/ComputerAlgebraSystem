@@ -7,19 +7,101 @@ namespace ExpressionParser.Tests.ParserTests
     public class ParserTests
     {
         [Test]
-        public void ParseExpression_SimpleAddition_ReturnExpression()
+        public void ParseExpression_Addition_ReturnsString()
         {
-            Expression expression = Parser.ParseExpression("2 + 2", new Environment());
-
-            Assert.AreEqual("2 + 2", expression.ToString());
+            TestExpression(
+                "2 + 2",
+                "2 + 2",
+                new Environment()
+            );
         }
 
         [Test]
-        public void ParseExpression_SimpleSubtraction_ReturnExpression()
+        public void ParseExpression_Subtraction_ReturnString()
         {
-            Expression expression = Parser.ParseExpression("2 - 2", new Environment());
+            TestExpression(
+                "2 - 2",
+                "2 - 2",
+                new Environment()
+            );
+        }
 
-            Assert.AreEqual("2 - 2", expression.ToString());
+        [Test]
+        public void ParseExpression_Exponentiation_ReturnsString()
+        {
+            TestExpression(
+                "2 ^ 3",
+                "2 ^ 3",
+                new Environment()
+            );
+        }
+        [Test]
+        public void ParseExpression_Multiplication_ReturnsString()
+        {
+            TestExpression(
+                "2 * 3", 
+                "2 * 3",
+                new Environment()
+            );
+        }
+
+        [Test]
+        public void ParseExpression_Division_ReturnsString()
+        {
+            TestExpression(
+                "2 / 3",
+                "2 / 3", 
+                new Environment()
+            );
+        }
+
+        [Test]
+        public void ParseExpression_ArithmeticExpression_ReturnsString()
+        {
+            TestExpression(
+                "1 + 2 * 3 / 4 ^ 5",
+                "1 + 2 * 3 / 4 ^ 5",
+                new Environment()
+            );
+        }
+
+        [Test]
+        public void ParseExpression_ComplexExpression_ReturnsString()
+        {
+            TestExpression(
+                "(1 + 2) * (3 / 4) ^ 5",
+                "(1 + 2) * (3 / 4) ^ 5",
+                new Environment()
+            );
+        }
+
+        [Test]
+        public void ParseExpression_KeywordExpression_ReturnsString()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+
+            TestExpression(
+                "ln(x^2 + x - 3)", 
+                "ln(x ^ 2 + x - 3)", 
+                environment
+            );
+        }
+
+        [Test]
+        public void ParseExpression_DistributiveExpession_ReturnsString()
+        {
+            TestExpression(
+                "2(3 + 4)", 
+                "2 * (3 + 4)", 
+                new Environment()
+            );
+        }
+
+        private void TestExpression(string rawExpression, string expected, Environment environment)
+        {
+            Expression expression = Parser.ParseExpression(rawExpression, environment);
+            Assert.AreEqual(expected, expression.ToString());
         }
     }
 }

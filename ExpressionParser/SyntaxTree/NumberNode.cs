@@ -20,5 +20,10 @@ namespace ExpressionParser.SyntaxTree
             }
             Value = (double)value;
         }
+
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
     }
 }

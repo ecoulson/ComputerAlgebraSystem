@@ -14,5 +14,10 @@ namespace ExpressionParser.SyntaxTree
         {
             Name = name.Value;
         }
+
+        public override string ToString()
+        {
+            return $"{Left.ToString()}({Right.ToString()})";
+        }
     }
 }

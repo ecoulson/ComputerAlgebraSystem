@@ -371,7 +371,8 @@ namespace ExpressionParser.Tests.SyntaxTree
             IdentifierNode i1 = (IdentifierNode)op4.Left;
             NumberNode n2 = (NumberNode)op4.Right;
             OperatorNode op5 = (OperatorNode)op3.Left;
-            OperatorNode op6 = (OperatorNode)op3.Right;
+            ParenthesesNode p1 = (ParenthesesNode)op3.Right;
+            OperatorNode op6 = (OperatorNode)p1.Left;
             IdentifierNode i2 = (IdentifierNode)op5.Left;
             IdentifierNode i3 = (IdentifierNode)op5.Right;
             FunctionOrDistributionNode f1 = (FunctionOrDistributionNode)op6.Left;
@@ -398,6 +399,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.NotNull(i7);
             Assert.NotNull(f1);
             Assert.NotNull(f2);
+            Assert.NotNull(p1);
 
             Assert.AreEqual(SyntaxNodeType.Operator, op1.Type);
             Assert.AreEqual(SyntaxNodeType.Operator, op2.Type);
@@ -415,6 +417,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             Assert.AreEqual(SyntaxNodeType.Number, n1.Type);
             Assert.AreEqual(SyntaxNodeType.Number, n2.Type);
             Assert.AreEqual(SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication, f1.Type);
+            Assert.AreEqual(SyntaxNodeType.Parentheses, p1.Type);
 
             Assert.AreEqual(Operator.Addition, op1.Operator);
             Assert.AreEqual(Operator.Multiplication, op2.Operator);
