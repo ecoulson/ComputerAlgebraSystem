@@ -25,5 +25,10 @@ namespace ExpressionParser.Parser
             Type = EnvironmentVariableType.Symbol;
             Symbol = symbol;
         }
+
+        public bool IsTypeOf(EnvironmentVariableType type)
+        {
+            return Type == type;
+        }
     }
 }

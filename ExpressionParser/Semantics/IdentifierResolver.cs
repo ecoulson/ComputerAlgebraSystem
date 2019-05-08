@@ -8,19 +8,49 @@ namespace ExpressionParser.Semantics
         public static List<IdentifierResolution> Resolve(List<string> symbols, string toResolve)
         {
             List<IdentifierResolution> resolutions = new List<IdentifierResolution>();
-            Resolve(symbols, toResolve, resolutions);
+            for (int i = 0; i < symbols.Count; i++)
+            {
+                IdentifierResolution resolution = new IdentifierResolution();
+                string symbol = symbols[i];
+
+                resolution.PushSymbol(symbol);
+                symbols.Remove(symbol);
+
+                if (symbol == toResolve)
+                {
+                    resolutions.Add(new IdentifierResolution(resolution));
+                }
+                else
+                {
+                    Resolve(symbols, toResolve, resolutions, resolution);
+                }
+                resolution.PopSymbol();
+                symbols.Insert(i, symbol);
+            }
             return resolutions;
         }
 
-        private static void Resolve(List<string> symbols, string toResolve, List<IdentifierResolution> resolutions)
+        private static void Resolve(List<string> symbols, string toResolve, List<IdentifierResolution> resolutions, IdentifierResolution currentResolution)
         {
-            if (symbols.Count == 0)
+            for (int i = 0; i < symbols.Count; i++)
             {
+                string symbol = symbols[i];
 
-            }
-            else
-            {
+                currentResolution.PushSymbol(symbol);
+                symbols.Remove(symbol);
 
+                string shorthandMultiplication = currentResolution.ToShortHandMultiplication();
+                if (shorthandMultiplication == toResolve)
+                {
+                    resolutions.Add(new IdentifierResolution(currentResolution));
+                } 
+                else if (toResolve.StartsWith(shorthandMultiplication, StringComparison.Ordinal))
+                {
+                    Resolve(symbols, toResolve, resolutions, currentResolution);
+                }
+
+                currentResolution.PopSymbol();
+                symbols.Insert(i, symbol);
             }
         }
     }

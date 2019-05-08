@@ -11,7 +11,7 @@ namespace ExpressionParser.Parser
         {
             SyntaxNode root = SyntaxTreeBuilder.BuildTree(Lexer.Lex(expression));
             root = SemanticAnalyzer.Analyze(root, environment);
-            return null;
+            return new Expression(root);
         }
     }
 }

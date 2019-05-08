@@ -40,6 +40,7 @@
     <Compile Include="Parser\EnvironmentTests.cs" />
     <Compile Include="Semantics\SemanticAnalyzerTest.cs" />
     <Compile Include="Semantics\IdentifierResolverTest.cs" />
+    <Compile Include="Parser\ParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">

@@ -153,5 +153,25 @@ namespace ExpressionParser.Tests.Semantics
             Assert.AreEqual("x", x.Value);
             Assert.AreEqual("y", y.Value);
         }
+
+        [Test]
+        public void Analyze_AmbiguousVariable_ThrowsException()
+        {
+            IdentifierNode symbol = new IdentifierNode("xyz");
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+            environment.AddSymbol("z");
+            environment.AddSymbol("xy");
+            environment.AddSymbol("yz");
+
+            AmbiguousIdentifierException exception = Assert.Throws<AmbiguousIdentifierException>(() =>
+            {
+                SemanticAnalyzer.Analyze(symbol, environment);
+            });
+
+            Assert.NotNull(exception);
+            Assert.AreEqual("Ambiguous identifier 'xyz' can be made from 'x, y, z', 'x, yz', 'xy, z'", exception.Message);
+        }
     }
 }

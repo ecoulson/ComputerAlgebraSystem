@@ -1,4 +1,5 @@
-﻿using ExpressionParser.Parser;
+﻿using System.Collections.Generic;
+using ExpressionParser.Parser;
 using ExpressionParser.SyntaxTree;
 
 namespace ExpressionParser.Semantics
@@ -30,47 +31,65 @@ namespace ExpressionParser.Semantics
         {
             if (environment.HasVariable(node.Value))
             {
-                EnvironmentVariable variable = environment.Get(node.Value);
-
-                if (variable.Type == EnvironmentVariableType.Number)
-                {
-                    return new NumberNode(variable.Value);
-                }
-                return node;
+                return AnalyzeEnvironmentVariable(node);
             }
-            else
+            return AnalyzeAmbiguousIdentifier(node);
+        }
+
+        private static SyntaxNode AnalyzeEnvironmentVariable(IdentifierNode node)
+        {
+            EnvironmentVariable variable = environment.Get(node.Value);
+
+            if (variable.IsTypeOf(EnvironmentVariableType.Number))
+            {
+                return new NumberNode(variable.Value);
+            }
+            return node;
+        }
+
+        private static SyntaxNode AnalyzeAmbiguousIdentifier(IdentifierNode node)
+        {
+            List<IdentifierResolution> multiplications =
+                    IdentifierResolver.Resolve(environment.Symbols(), node.Value);
+            if (multiplications.Count == 0)
             {
                 throw new UndefinedSymbolException(node);
             }
+            if (multiplications.Count > 1)
+            {
+                throw new AmbiguousIdentifierException(node.Value, multiplications);
+            }
+            return multiplications[0].ToSyntaxTree();
         }
 
         private static SyntaxNode AnalyzeAmbiguousFunctionOrDistribution(SyntaxNode node)
         {
             IdentifierNode symbol = (IdentifierNode)node.Left;
             EnvironmentVariable definition = environment.Get(symbol.Value);
-            AssertNotNull(node.Right);
 
-            if (definition.Type == EnvironmentVariableType.Function)
+            if (definition.IsTypeOf(EnvironmentVariableType.Function))
             {
-                FunctionNode function = new FunctionNode();
-                function.Left = AnalyzeIdentifier(symbol);
-                function.Right = Analyze(node.Right);
-                return function;
+                return CreateFunctionNode(symbol, node.Right);
             }
-            else
-            {
-                OperatorNode multiplication = new OperatorNode(Operator.Multiplication);
-                multiplication.Left = AnalyzeIdentifier(symbol);
-                multiplication.Right = Analyze(node.Right);
-                return multiplication;
-            }
+            return CreateMultiplicationNode(symbol, node.Right);
         }
 
-        private static void AssertNotNull(SyntaxNode node)
+        private static SyntaxNode CreateFunctionNode(IdentifierNode name, SyntaxNode expression)
         {
-            if (node == null) {
-                throw new System.ArgumentNullException();
-            }
+            return new FunctionNode
+            {
+                Left = AnalyzeIdentifier(name),
+                Right = Analyze(expression)
+            };
+        }
+
+        private static SyntaxNode CreateMultiplicationNode(IdentifierNode lhs, SyntaxNode rhs)
+        {
+            return new OperatorNode(Operator.Multiplication)
+            {
+                Left = AnalyzeIdentifier(lhs),
+                Right = Analyze(rhs)
+            };
         }
     }
 }

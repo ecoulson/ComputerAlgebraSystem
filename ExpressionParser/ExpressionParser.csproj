@@ -56,6 +56,7 @@
     <Compile Include="SyntaxTree\FunctionNode.cs" />
     <Compile Include="Semantics\IdentifierResolver.cs" />
     <Compile Include="Semantics\IdentifierResolution.cs" />
+    <Compile Include="Semantics\AmbiguousIdentifierException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />
