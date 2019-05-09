@@ -36,5 +36,15 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mathematics\Mathematics.csproj">
+      <Project>{A93CF7BB-0C05-4A4C-8202-3AA520B5C2BE}</Project>
+      <Name>Mathematics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
+      <Project>{99D15B84-F69D-4762-809A-22BB83EA0C90}</Project>
+      <Name>ExpressionParser</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
