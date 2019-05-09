@@ -72,7 +72,7 @@ namespace ExpressionParser.Tests.Semantics
             SyntaxNode root = new FunctionOrDistributionNode(left, right);
 
             Environment environment = new Environment();
-            environment.AddFunction("x", new Expression(null));
+            environment.AddFunction("x", null);
 
             FunctionNode function = (FunctionNode)SemanticAnalyzer.Analyze(root, environment);
             IdentifierNode functionName = (IdentifierNode)function.Left;

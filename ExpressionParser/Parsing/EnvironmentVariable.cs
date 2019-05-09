@@ -1,11 +1,13 @@
 ﻿using System;
+using ExpressionParser.SyntaxTree;
+
 namespace ExpressionParser.Parsing
 {
     public class EnvironmentVariable
     {
         public EnvironmentVariableType Type { get; }
         public double? Value { get; }
-        public Expression Expression { get; }
+        public SyntaxNode Expression { get; }
         public string Symbol { get; }
 
         public EnvironmentVariable(double value)
@@ -14,7 +16,7 @@ namespace ExpressionParser.Parsing
             Value = value;
         }
 
-        public EnvironmentVariable(Expression expression)
+        public EnvironmentVariable(SyntaxNode expression)
         {
             Type = EnvironmentVariableType.Function;
             Expression = expression;

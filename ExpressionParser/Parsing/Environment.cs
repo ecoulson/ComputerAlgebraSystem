@@ -8,21 +8,21 @@ namespace ExpressionParser.Parsing
     {
         private static readonly Dictionary<string, EnvironmentVariable> PredefinedFunctions = new Dictionary<string, EnvironmentVariable>()
         {
-            { "sin", new EnvironmentVariable(new Expression(null)) },
-            { "cos", new EnvironmentVariable(new Expression(null)) },
-            { "tan", new EnvironmentVariable(new Expression(null)) },
-            { "csc", new EnvironmentVariable(new Expression(null)) },
-            { "sec", new EnvironmentVariable(new Expression(null)) },
-            { "cot", new EnvironmentVariable(new Expression(null)) },
-            { "arcsin", new EnvironmentVariable(new Expression(null)) },
-            { "arccos", new EnvironmentVariable(new Expression(null)) },
-            { "arctan", new EnvironmentVariable(new Expression(null)) },
-            { "arccsc", new EnvironmentVariable(new Expression(null)) },
-            { "arcsec", new EnvironmentVariable(new Expression(null)) },
-            { "arccot", new EnvironmentVariable(new Expression(null)) },
-            { "ln", new EnvironmentVariable(new Expression(null)) },
-            { "log", new EnvironmentVariable(new Expression(null)) },
-            { "sqrt", new EnvironmentVariable(new Expression(null)) }
+            { "sin", new EnvironmentVariable(new FunctionNode()) },
+            { "cos", new EnvironmentVariable(new FunctionNode()) },
+            { "tan", new EnvironmentVariable(new FunctionNode()) },
+            { "csc", new EnvironmentVariable(new FunctionNode()) },
+            { "sec", new EnvironmentVariable(new FunctionNode()) },
+            { "cot", new EnvironmentVariable(new FunctionNode()) },
+            { "arcsin", new EnvironmentVariable(new FunctionNode()) },
+            { "arccos", new EnvironmentVariable(new FunctionNode()) },
+            { "arctan", new EnvironmentVariable(new FunctionNode()) },
+            { "arccsc", new EnvironmentVariable(new FunctionNode()) },
+            { "arcsec", new EnvironmentVariable(new FunctionNode()) },
+            { "arccot", new EnvironmentVariable(new FunctionNode()) },
+            { "ln", new EnvironmentVariable(new FunctionNode()) },
+            { "log", new EnvironmentVariable(new FunctionNode()) },
+            { "sqrt", new EnvironmentVariable(new FunctionNode()) }
         };
 
         private static readonly Dictionary<string, EnvironmentVariable> PredefinedSymbols = new Dictionary<string, EnvironmentVariable>()
@@ -50,7 +50,7 @@ namespace ExpressionParser.Parsing
             mapping[symbol] = new EnvironmentVariable(symbol);
         }
 
-        public void AddFunction(string symbol, Expression expression)
+        public void AddFunction(string symbol, SyntaxNode expression)
         {
             if (mapping.ContainsKey(symbol))
                 throw new DefinedSymbolException(symbol);

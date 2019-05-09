@@ -1,4 +1,5 @@
 ﻿using ExpressionParser.Parsing;
+using ExpressionParser.SyntaxTree;
 using NUnit.Framework;
 
 namespace ExpressionParser.Tests.ParserTests
@@ -100,7 +101,7 @@ namespace ExpressionParser.Tests.ParserTests
 
         private void TestExpression(string rawExpression, string expected, Environment environment)
         {
-            Expression expression = Parser.ParseExpression(rawExpression, environment);
+            SyntaxNode expression = Parser.ParseExpression(rawExpression, environment);
             Assert.AreEqual(expected, expression.ToString());
         }
     }

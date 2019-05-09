@@ -34,7 +34,6 @@
     <Compile Include="Lex\Lexer.cs" />
     <Compile Include="Lex\Token.cs" />
     <Compile Include="Lex\TokenType.cs" />
-    <Compile Include="Expression\Expression.cs" />
     <Compile Include="Lex\TokenConstants.cs" />
     <Compile Include="SyntaxTree\SyntaxTreeBuilder.cs" />
     <Compile Include="SyntaxTree\SyntaxNode.cs" />
@@ -63,7 +62,6 @@
   <ItemGroup>
     <Folder Include="Lex\" />
     <Folder Include="Parsing\" />
-    <Folder Include="Expression\" />
     <Folder Include="SyntaxTree\" />
     <Folder Include="Semantics\" />
   </ItemGroup>

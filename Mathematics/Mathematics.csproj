@@ -32,6 +32,13 @@
   <ItemGroup>
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Expression.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
+      <Project>{99D15B84-F69D-4762-809A-22BB83EA0C90}</Project>
+      <Name>ExpressionParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

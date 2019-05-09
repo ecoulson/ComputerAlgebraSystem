@@ -1,7 +1,7 @@
 ﻿using System;
 using ExpressionParser.SyntaxTree;
 
-namespace ExpressionParser
+namespace Mathematics
 {
     public class Expression
     {
@@ -12,7 +12,7 @@ namespace ExpressionParser
             Tree = tree;
         }
 
-        public double Evaluate(double x)
+        public Expression Simplify()
         {
             throw new NotImplementedException();
         }
