@@ -246,5 +246,113 @@ namespace ExpressionParser.Tests.Semantics
             Assert.NotNull(exception);
             Assert.AreEqual("Ambiguous identifier 'xyz' can be made from 'x, y, z', 'x, yz', 'xy, z'", exception.Message);
         }
+
+        [Test]
+        public void Analyze_Parentheses_ThrowsException()
+        {
+            ParenthesesNode node = new ParenthesesNode(new IdentifierNode("x"));
+
+            Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
+        }
+
+        [Test]
+        public void Analyze_Parentheses_ReturnsParenthesesNode()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            ParenthesesNode node = new ParenthesesNode(new IdentifierNode("x"));
+
+            node = (ParenthesesNode)SemanticAnalyzer.Analyze(node, environment);
+            IdentifierNode xNode = (IdentifierNode)node.Left;
+
+            Assert.NotNull(node);
+            Assert.NotNull(xNode);
+            Assert.AreEqual(SyntaxNodeType.Parentheses, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Identifier, xNode.Type);
+            Assert.AreEqual("x", xNode.Value);
+        }
+
+        [Test]
+        public void Analyze_OperatorIllegalLHS_ThrowsException()
+        {
+            OperatorNode node = new OperatorNode(Operator.Addition);
+            node.Left = new IdentifierNode("x");
+            node.Right = new NumberNode(2);
+
+            Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
+        }
+
+        [Test]
+        public void Analyze_OperatorIllegalRHS_ThrowsException()
+        {
+            OperatorNode node = new OperatorNode(Operator.Addition);
+            node.Left = new NumberNode(2);
+            node.Right = new IdentifierNode("x");
+
+            Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
+        }
+
+        [Test]
+        public void Analyze_Operator_ReturnsOperatorNode()
+        {
+            OperatorNode node = new OperatorNode(Operator.Addition);
+            node.Left = new NumberNode(2);
+            node.Right = new NumberNode(2);
+
+            node = (OperatorNode)SemanticAnalyzer.Analyze(node, new Environment());
+            NumberNode lhsNode = (NumberNode)node.Left;
+            NumberNode rhsNode = (NumberNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(lhsNode);
+            Assert.NotNull(rhsNode);
+            Assert.AreEqual(node.Type, SyntaxNodeType.Operator);
+            Assert.AreEqual(lhsNode.Type, SyntaxNodeType.Number);
+            Assert.AreEqual(rhsNode.Type, SyntaxNodeType.Number);
+            Assert.AreEqual(node.Operator, Operator.Addition);
+            Assert.AreEqual(lhsNode.Value, 2);
+            Assert.AreEqual(rhsNode.Value, 2);
+        }
+
+        [Test]
+        public void Analyze_FunctionUndefinedName_ThrowsException()
+        {
+            FunctionNode node = new FunctionNode();
+            node.Left = new IdentifierNode("f");
+            node.Right = new NumberNode(2);
+
+            Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
+        }
+
+        [Test]
+        public void Analyze_FunctionIllegalCallExpression_ThrowsException()
+        {
+            FunctionNode node = new FunctionNode();
+            node.Left = new IdentifierNode("ln");
+            node.Right = new IdentifierNode("x");
+
+            Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
+        }
+
+        [Test]
+        public void Analyze_Function_ReturnsFunctionNode()
+        {
+            FunctionNode node = new FunctionNode();
+            node.Left = new IdentifierNode("ln");
+            node.Right = new IdentifierNode("e");
+
+            node = (FunctionNode)SemanticAnalyzer.Analyze(node, new Environment());
+            IdentifierNode nameNode = (IdentifierNode)node.Left;
+            IdentifierNode callNode = (IdentifierNode)node.Right;
+
+            Assert.NotNull(node);
+            Assert.NotNull(nameNode);
+            Assert.NotNull(callNode);
+            Assert.AreEqual(node.Type, SyntaxNodeType.Function);
+            Assert.AreEqual(nameNode.Type, SyntaxNodeType.Identifier);
+            Assert.AreEqual(callNode.Type, SyntaxNodeType.Identifier);
+            Assert.AreEqual(nameNode.Value, "ln");
+            Assert.AreEqual(callNode.Value, "e");
+        }
     }
 }

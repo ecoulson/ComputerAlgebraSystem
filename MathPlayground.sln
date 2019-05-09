@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Input", "Input\Input.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics", "Mathematics\Mathematics.csproj", "{A93CF7BB-0C05-4A4C-8202-3AA520B5C2BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mathematics.Tests", "Mathematics.Tests\Mathematics.Tests.csproj", "{A1B34566-F85E-4020-8B6E-4C7A3BC11651}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -37,5 +39,9 @@ Global
 		{A93CF7BB-0C05-4A4C-8202-3AA520B5C2BE}.Debug|x86.Build.0 = Debug|Any CPU
 		{A93CF7BB-0C05-4A4C-8202-3AA520B5C2BE}.Release|x86.ActiveCfg = Release|Any CPU
 		{A93CF7BB-0C05-4A4C-8202-3AA520B5C2BE}.Release|x86.Build.0 = Release|Any CPU
+		{A1B34566-F85E-4020-8B6E-4C7A3BC11651}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1B34566-F85E-4020-8B6E-4C7A3BC11651}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1B34566-F85E-4020-8B6E-4C7A3BC11651}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1B34566-F85E-4020-8B6E-4C7A3BC11651}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

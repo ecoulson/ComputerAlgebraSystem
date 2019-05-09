@@ -16,15 +16,28 @@ namespace ExpressionParser.Semantics
 
         private static SyntaxNode Analyze(SyntaxNode node)
         {
-            if (node.Type == SyntaxNodeType.Identifier)
+            switch (node.Type)
             {
-                return AnalyzeIdentifier((IdentifierNode)node);
+                case SyntaxNodeType.Identifier:
+                    return AnalyzeIdentifier((IdentifierNode)node);
+                case SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication:
+                    return AnalyzeAmbiguousFunctionOrDistribution(node);
+                case SyntaxNodeType.Number:
+                    return node;
+                case SyntaxNodeType.Parentheses:
+                    node.Left = Analyze(node.Left);
+                    return node;
+                case SyntaxNodeType.Operator:
+                    node.Left = Analyze(node.Left);
+                    node.Right = Analyze(node.Right);
+                    return node;
+                case SyntaxNodeType.Function:
+                    node.Left = Analyze(node.Left);
+                    node.Right = Analyze(node.Right);
+                    return node;
+                default:
+                    throw new System.ArgumentException($"Unkown syntax node type '{node.Type}'");
             }
-            if (node.Type == SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication)
-            {
-                return AnalyzeAmbiguousFunctionOrDistribution(node);
-            }
-            return node;
         }
 
         private static SyntaxNode AnalyzeIdentifier(IdentifierNode node)
