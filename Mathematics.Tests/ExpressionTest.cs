@@ -58,7 +58,7 @@ namespace Mathematics.Tests
         }
 
         [Test]
-        public void Simplify_SimpleUnsimplifiableExpression_ReturnsExpression()
+        public void Simplify_UnsimplifiableExpression_ReturnsExpression()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -67,6 +67,128 @@ namespace Mathematics.Tests
             expression = expression.Simplify();
 
             Assert.AreEqual("2 + x", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicAddition_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            Expression expression = GetExpression("x + x", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("2 * x", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicAdditionOtherVariable_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("g");
+            Expression expression = GetExpression("g + g", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("2 * g", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicSubtraction_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("z");
+            Expression expression = GetExpression("z - z", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("0", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicMultiplication_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("z");
+            Expression expression = GetExpression("z * z", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("z ^ 2", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicMultiplicationOtherVariable_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("y");
+            Expression expression = GetExpression("y * y", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("y ^ 2", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicDivision_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("z");
+            Expression expression = GetExpression("z / z", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("1", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_SimpleAlgebraicExponentiation_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("l");
+            Expression expression = GetExpression("l ^ l", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("l ^ l", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_UnsimplifiableAlgebraicExpression_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("z");
+            environment.AddSymbol("y");
+
+            Expression expression = GetExpression("z + y", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("z + y", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition1_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            Expression expression = GetExpression("x + x + x", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("3 * x", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition2_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            Expression expression = GetExpression("4 * x + x", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("5 * x", expression.ToString());
         }
 
         private Expression GetExpression(string expression, Environment environment)
