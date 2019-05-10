@@ -37,23 +37,26 @@ namespace Mathematics
             {
                 return SimplifyNumericalOperation(node);
             }
-            if (CanSimplifyBasicAlgebraOperator(node))
+            if (CanAlgebraicallySimplifyBasicOperator(node))
             {
                 return SimplifyBasicAlgebraicOperation(node);
             }
-            if (node.Left.Type == SyntaxNodeType.Operator && node.Right.Type == SyntaxNodeType.Identifier)
+            if (CanSimplifyAlgebraicallyLeftNestedOperator(node))
+            {
+                return SimplifyAlgebraicallyLeftNestedOperator(node);
+            }
+            if (node.Left.Type == SyntaxNodeType.Identifier && node.Right.Type == SyntaxNodeType.Operator)
             {
                 OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
-                NumberNode coefficientNode = (NumberNode)node.Left.Left;
-                IdentifierNode rightHandIdentifier = (IdentifierNode)node.Right;
+                NumberNode coefficientNode = (NumberNode)node.Right.Left;
+                IdentifierNode leftHandIdentifier = (IdentifierNode)node.Left;
 
                 operatorNode.Left = new NumberNode(coefficientNode.Value + 1);
-                operatorNode.Right = rightHandIdentifier;
+                operatorNode.Right = leftHandIdentifier;
                 return operatorNode;
             }
             return node;
         }
-
 
         private bool CanNumericallySimplifyOperator(OperatorNode node)
         {
@@ -81,7 +84,7 @@ namespace Mathematics
             return node;
         }
 
-        private bool CanSimplifyBasicAlgebraOperator(OperatorNode node)
+        private bool CanAlgebraicallySimplifyBasicOperator(OperatorNode node)
         {
             return node.Left.Type == SyntaxNodeType.Identifier &&
                 node.Right.Type == SyntaxNodeType.Identifier;
@@ -113,6 +116,23 @@ namespace Mathematics
                 }
             }
             return node;
+        }
+
+        private bool CanSimplifyAlgebraicallyLeftNestedOperator(OperatorNode node)
+        {
+            return node.Left.Type == SyntaxNodeType.Operator &&
+                node.Right.Type == SyntaxNodeType.Identifier;
+        }
+
+        private SyntaxNode SimplifyAlgebraicallyLeftNestedOperator(OperatorNode node)
+        {
+            OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
+            NumberNode coefficientNode = (NumberNode)node.Left.Left;
+            IdentifierNode rightHandIdentifier = (IdentifierNode)node.Right;
+
+            operatorNode.Left = new NumberNode(coefficientNode.Value + 1);
+            operatorNode.Right = rightHandIdentifier;
+            return operatorNode;
         }
 
         public override string ToString()

@@ -191,6 +191,18 @@ namespace Mathematics.Tests
             Assert.AreEqual("5 * x", expression.ToString());
         }
 
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition3_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            Expression expression = GetExpression("x + 3 * x", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("4 * x", expression.ToString());
+        }
+
         private Expression GetExpression(string expression, Environment environment)
         {
             SyntaxNode root = Parser.ParseExpression(expression, environment);
