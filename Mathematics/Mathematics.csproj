@@ -33,12 +33,21 @@
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Expression.cs" />
+    <Compile Include="ExpressionSimplification\OperatorSimplification.cs" />
+    <Compile Include="ExpressionSimplification\NumericalOperatorSimplifier.cs" />
+    <Compile Include="ExpressionSimplification\AlgebraicIdentitySimplifier.cs" />
+    <Compile Include="ExpressionSimplification\LeftNestedAlgebraicSimplifier.cs" />
+    <Compile Include="ExpressionSimplification\RightNestedAlgebraicSimplifier.cs" />
+    <Compile Include="ExpressionSimplification\NestedAlgebraicSimplifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
       <Project>{99D15B84-F69D-4762-809A-22BB83EA0C90}</Project>
       <Name>ExpressionParser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ExpressionSimplification\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
