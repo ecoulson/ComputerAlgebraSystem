@@ -203,6 +203,83 @@ namespace Mathematics.Tests
             Assert.AreEqual("4 * x", expression.ToString());
         }
 
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition4_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("j");
+            Expression expression = GetExpression("6 * j + 9 * j", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("15 * j", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition5_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+            Expression expression = GetExpression("x + x + y", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("2 * x + y", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition6_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+            Expression expression = GetExpression("x * 2 + y", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("x * 2 + y", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition7_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+            Expression expression = GetExpression("x * 2 + x", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("3 * x", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition8_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+            Expression expression = GetExpression("x + y + x", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("2 * x + y", expression.ToString());
+        }
+
+        [Test]
+        public void Simplify_ComplexAlgebraicAddition9_ReturnsExpression()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("k");
+            environment.AddSymbol("g");
+            Expression expression = GetExpression("g + k + k", environment);
+
+            expression = expression.Simplify();
+
+            Assert.AreEqual("2 * k + g", expression.ToString());
+        }
+
         private Expression GetExpression(string expression, Environment environment)
         {
             SyntaxNode root = Parser.ParseExpression(expression, environment);

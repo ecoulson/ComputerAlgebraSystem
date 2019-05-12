@@ -11,5 +11,10 @@ namespace ExpressionParser.SyntaxTree
         {
             Type = type;
         }
+
+        public bool IsTypeOf(SyntaxNodeType type)
+        {
+            return type == Type;
+        }
     }
 }
