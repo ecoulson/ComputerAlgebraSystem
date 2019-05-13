@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ExpressionParser.Semantics;
 using NUnit.Framework;
 
-namespace ExpressionParser.Tests.Semantics
+namespace ExpressionParser.Tests.SemanticTest
 {
     [TestFixture]
     public class IdentifierResolverTest
