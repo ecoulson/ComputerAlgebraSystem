@@ -58,6 +58,7 @@
     <Compile Include="Parsing\DefinedSymbolException.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="SyntaxTree\ParenthesesNode.cs" />
+    <Compile Include="Lex\RawExpression.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />

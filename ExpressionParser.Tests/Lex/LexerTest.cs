@@ -11,7 +11,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_Number1_ReturnsNumberToken()
         {
-            List<Token> tokens = Lexer.Lex("1");
+            List<Token> tokens = Lexer.Lex(new RawExpression("1"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -22,7 +22,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_Number2_ReturnsNumberToken()
         {
-            List<Token> tokens = Lexer.Lex("2");
+            List<Token> tokens = Lexer.Lex(new RawExpression("2"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -33,7 +33,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_DecimalNumber_ReturnsNumberToken()
         {
-            List<Token> tokens = Lexer.Lex("1.1");
+            List<Token> tokens = Lexer.Lex(new RawExpression("1.1"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -44,7 +44,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_DecimalTensNumber_ReturnsNumberToken()
         {
-            List<Token> tokens = Lexer.Lex("11.1");
+            List<Token> tokens = Lexer.Lex(new RawExpression("11.1"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -58,7 +58,7 @@ namespace ExpressionParser.Tests.LexerTest
             Assert.Throws<FormatException>(
                 delegate
                 {
-                    Lexer.Lex("11..1");
+                    Lexer.Lex(new RawExpression("11..1"));
                 }
             );
         }
@@ -66,7 +66,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_IdentifierX_ReturnsIdentifierToken()
         {
-            List<Token> tokens = Lexer.Lex("x");
+            List<Token> tokens = Lexer.Lex(new RawExpression("x"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -77,7 +77,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_IdentifierY_ReturnsIdentifierToken()
         {
-            List<Token> tokens = Lexer.Lex("y");
+            List<Token> tokens = Lexer.Lex(new RawExpression("y"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -88,7 +88,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_IdentifierFoo_ReturnsIdentifierToken()
         {
-            List<Token> tokens = Lexer.Lex("foo");
+            List<Token> tokens = Lexer.Lex(new RawExpression("foo"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -99,7 +99,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_IdentifierBackSlash_ReturnsIdentifierToken()
         {
-            List<Token> tokens = Lexer.Lex("\\asdf");
+            List<Token> tokens = Lexer.Lex(new RawExpression("\\asdf"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -110,7 +110,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_WhiteSpace_ReturnsWhiteSpaceToken()
         {
-            List<Token> tokens = Lexer.Lex("\t");
+            List<Token> tokens = Lexer.Lex(new RawExpression("\t"));
 
             Assert.IsEmpty(tokens);
         }
@@ -118,7 +118,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_DivideOperator_ReturnsDivideToken()
         {
-            List<Token> tokens = Lexer.Lex("/");
+            List<Token> tokens = Lexer.Lex(new RawExpression("/"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -129,7 +129,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_MultiplyOperator_ReturnsMultiplyToken()
         {
-            List<Token> tokens = Lexer.Lex("*");
+            List<Token> tokens = Lexer.Lex(new RawExpression("*"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -140,7 +140,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_AdditionOperator_ReturnsAdditionToken()
         {
-            List<Token> tokens = Lexer.Lex("+");
+            List<Token> tokens = Lexer.Lex(new RawExpression("+"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -151,7 +151,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_SubtractionOperator_ReturnsSubstractionToken()
         {
-            List<Token> tokens = Lexer.Lex("-");
+            List<Token> tokens = Lexer.Lex(new RawExpression("-"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -162,7 +162,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_ExponentOperator_ReturnsExponentToken()
         {
-            List<Token> tokens = Lexer.Lex("^");
+            List<Token> tokens = Lexer.Lex(new RawExpression("^"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -173,7 +173,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_LeftParentheses_ReturnsLeftParenthesesToken()
         {
-            List<Token> tokens = Lexer.Lex("(");
+            List<Token> tokens = Lexer.Lex(new RawExpression("("));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -184,7 +184,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_RightParentheses_ReturnsRightParenthesesToken()
         {
-            List<Token> tokens = Lexer.Lex(")");
+            List<Token> tokens = Lexer.Lex(new RawExpression(")"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(1, tokens.Count);
@@ -195,7 +195,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_AllTokens_ReturnsAllTokens()
         {
-            List<Token> tokens = Lexer.Lex("1x*/+-()^");
+            List<Token> tokens = Lexer.Lex(new RawExpression("1x*/+-()^"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(9, tokens.Count);
@@ -223,7 +223,7 @@ namespace ExpressionParser.Tests.LexerTest
         [Test]
         public void Lex_SimpleExpression_ReturnsSimpleExpressionTokens()
         {
-            List<Token> tokens = Lexer.Lex("1234.5x + 1.2345");
+            List<Token> tokens = Lexer.Lex(new RawExpression("1234.5x + 1.2345"));
 
             Assert.IsNotEmpty(tokens);
             Assert.AreEqual(4, tokens.Count);

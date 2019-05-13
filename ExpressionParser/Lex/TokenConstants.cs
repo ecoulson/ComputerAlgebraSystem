@@ -12,6 +12,7 @@ namespace ExpressionParser.Lex
         public const char LeftParentheses = '(';
         public const char RightParentheses = ')';
         public const char Exponent = '^';
+        public const char Dot = '.';
 
         public static readonly Regex NumberPattern = new Regex("\\d");
         public static readonly Regex WhiteSpacePattern = new Regex("\\s");
