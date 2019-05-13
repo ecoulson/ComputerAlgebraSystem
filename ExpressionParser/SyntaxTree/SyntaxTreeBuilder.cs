@@ -147,7 +147,7 @@ namespace ExpressionParser.SyntaxTree
                 case TokenType.Number:
                     return new NumberNode(NextToken());
                 case TokenType.Subtraction:
-                    return ReadNegativeNumber();
+                    return ReadNegativeFormal();
                 default:
                     throw new UnexpectedTokenException(
                         SyntaxTreeConstants.FormalTokenTypes, 
@@ -201,15 +201,15 @@ namespace ExpressionParser.SyntaxTree
             return new FunctionOrDistributionNode(new IdentifierNode(nameToken), functionExpression);
         }
 
-        private static SyntaxNode ReadNegativeNumber()
+        private static SyntaxNode ReadNegativeFormal()
         {
             AssertNotEndOfStream();
             AssertIsTypeOf(NextToken(), TokenType.Subtraction);
-            AssertIsTypeOf(PeekToken(), TokenType.Number);
+            OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
+            operatorNode.Left = new NumberNode(-1);
+            operatorNode.Right = ReadFormal();
 
-            Token negativeToken = new Token(TokenType.Number, "-" + NextToken().Value);
-
-            return new NumberNode(negativeToken);
+            return operatorNode;
         }
 
         #endregion

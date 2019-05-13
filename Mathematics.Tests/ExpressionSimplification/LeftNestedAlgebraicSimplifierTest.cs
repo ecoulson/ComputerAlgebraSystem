@@ -9,7 +9,7 @@ namespace Mathematics.Tests.ExpressionSimplification
     public class LeftNestedAlgebraicSimplifierTest
     {
         [Test]
-        public void Simplify_LeftNestedTerm_ReturnsOperatorNode()
+        public void Simplify_AddingLeftNestedTerm_ReturnsOperatorNode()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -21,7 +21,7 @@ namespace Mathematics.Tests.ExpressionSimplification
         }
 
         [Test]
-        public void Simplify_LeftNestedReverseTerm_ReturnsOperatorNode()
+        public void Simplify_AddingLeftNestedReverseTerm_ReturnsOperatorNode()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -33,7 +33,7 @@ namespace Mathematics.Tests.ExpressionSimplification
         }
 
         [Test]
-        public void Simplify_LeftNestedTermDifferentIdentifiers_ReturnsOperatorNode()
+        public void Simplify_AddingLeftNestedTermDifferentIdentifiers_ReturnsOperatorNode()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -46,7 +46,7 @@ namespace Mathematics.Tests.ExpressionSimplification
         }
 
         [Test]
-        public void Simplify_LeftNestedReverseTermDifferentIdentifiers_ReturnsOperatorNode()
+        public void Simplify_AddingLeftNestedReverseTermDifferentIdentifiers_ReturnsOperatorNode()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -59,7 +59,7 @@ namespace Mathematics.Tests.ExpressionSimplification
         }
 
         [Test]
-        public void Simplify_LeftNestedIdentifiers_ReturnsOperatorNode()
+        public void Simplify_AddingLeftNestedIdentifiers_ReturnsOperatorNode()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -72,7 +72,32 @@ namespace Mathematics.Tests.ExpressionSimplification
         }
 
         [Test]
-        public void Simplify_LeftNestedIdentifiersSwapped_ReturnsOperatorNode()
+        public void Simplify_AddingLeftNestedIdentifiersSwapped_ReturnsOperatorNode()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            environment.AddSymbol("y");
+            SyntaxNode root = GetExpression("y + x + x", environment);
+
+            root = LeftNestedAlgebraicSimplifier.Simplify((OperatorNode)root, environment);
+
+            Assert.AreEqual("2 * x + y", root.ToString());
+        }
+
+        [Test]
+        public void Simplify_AddingOppositeIdentifiers_ReturnsOperatorNode()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            SyntaxNode root = GetExpression("-x + x", environment);
+
+            root = LeftNestedAlgebraicSimplifier.Simplify((OperatorNode)root, environment);
+
+            Assert.AreEqual("0", root.ToString());
+        }
+
+        [Test]
+        public void Simplify_AddingLeftNestedDifferentIdentifiers_ReturnsOperatorNode()
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
@@ -83,12 +108,6 @@ namespace Mathematics.Tests.ExpressionSimplification
             root = LeftNestedAlgebraicSimplifier.Simplify((OperatorNode)root, environment);
 
             Assert.AreEqual("y + x + z", root.ToString());
-        }
-
-        [Test]
-        public void Simplify_LeftNestedDifferentIdentifiers_ReturnsOperatorNode()
-        {
-
         }
 
         private SyntaxNode GetExpression(string expression, Environment environment)

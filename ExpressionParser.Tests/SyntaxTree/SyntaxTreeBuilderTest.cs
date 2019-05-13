@@ -352,19 +352,27 @@ namespace ExpressionParser.Tests.SyntaxTree
         }
 
         [Test]
-        public void BuildTree_NegativeNumber_ReturnsNumberNode()
+        public void BuildTree_NegativeNumber_ReturnsOperatorNode()
         {
             List<Token> tokens = new List<Token>
             {
                 new Token(TokenType.Subtraction),
-                new Token(TokenType.Number, "1")
+                new Token(TokenType.Number, "2")
             };
 
-            NumberNode node = (NumberNode)SyntaxTreeBuilder.BuildTree(tokens);
+            OperatorNode node = (OperatorNode)SyntaxTreeBuilder.BuildTree(tokens);
+            NumberNode negativeNode = (NumberNode)node.Left;
+            NumberNode valueNode = (NumberNode)node.Right;
 
             Assert.NotNull(node);
-            Assert.AreEqual(SyntaxNodeType.Number, node.Type);
-            Assert.AreEqual(-1, node.Value);
+            Assert.NotNull(negativeNode);
+            Assert.NotNull(valueNode);
+            Assert.AreEqual(SyntaxNodeType.Operator, node.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, negativeNode.Type);
+            Assert.AreEqual(SyntaxNodeType.Number, valueNode.Type);
+            Assert.AreEqual(Operator.Multiplication, node.Operator);
+            Assert.AreEqual(-1, negativeNode.Value);
+            Assert.AreEqual(2, valueNode.Value);
         }
 
         #endregion

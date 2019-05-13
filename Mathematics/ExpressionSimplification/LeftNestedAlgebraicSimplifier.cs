@@ -45,18 +45,14 @@ namespace Mathematics.ExpressionSimplification
         {
             if (node.Right.IsTypeOf(SyntaxNodeType.Identifier))
                 return (IdentifierNode)node.Right;
-            if (node.Left.IsTypeOf(SyntaxNodeType.Identifier))
-                return (IdentifierNode)node.Left;
-            return null;
+            return (IdentifierNode)node.Left;
         }
 
         private static NumberNode GetCoefficient(OperatorNode node)
         {
             if (node.Right.IsTypeOf(SyntaxNodeType.Number))
                 return (NumberNode)node.Right;
-            if (node.Left.IsTypeOf(SyntaxNodeType.Number))
-                return (NumberNode)node.Left;
-            return null;
+            return (NumberNode)node.Left;
         }
 
         private static SyntaxNode SimplifyNestedIdentifiers(OperatorNode node)
@@ -67,13 +63,9 @@ namespace Mathematics.ExpressionSimplification
             IdentifierNode leftNestedIdentifier = (IdentifierNode)nestedOperator.Left;
 
             if (rightHandIdentifier.Value == rightNestedIdentifier.Value)
-            {
                 node = AddLikeTerms(node, rightHandIdentifier, leftNestedIdentifier);
-            }
             if (rightHandIdentifier.Value == leftNestedIdentifier.Value)
-            {
                 node = AddLikeTerms(node, rightHandIdentifier, rightNestedIdentifier);
-            }
             return node;
         }
 
