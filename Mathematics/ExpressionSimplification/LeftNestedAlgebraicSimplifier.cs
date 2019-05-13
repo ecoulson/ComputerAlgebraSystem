@@ -34,6 +34,9 @@ namespace Mathematics.ExpressionSimplification
                 OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
                 NumberNode coefficientNode = GetCoefficient(nestedOperator);
 
+                if (coefficientNode.Value + 1 == 0)
+                    return new NumberNode(0);
+
                 operatorNode.Left = new NumberNode(coefficientNode.Value + 1);
                 operatorNode.Right = rightHandIdentifier;
                 return operatorNode;

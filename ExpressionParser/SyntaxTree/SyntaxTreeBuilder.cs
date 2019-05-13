@@ -205,6 +205,7 @@ namespace ExpressionParser.SyntaxTree
         {
             AssertNotEndOfStream();
             AssertIsTypeOf(NextToken(), TokenType.Subtraction);
+
             OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
             operatorNode.Left = new NumberNode(-1);
             operatorNode.Right = ReadFormal();

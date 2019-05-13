@@ -33,23 +33,6 @@ namespace Mathematics
             return node;
         }
 
-        public bool CanAlgebraicallySimplifyNestedOperator(OperatorNode node)
-        {
-            return node.Left.IsTypeOf(SyntaxNodeType.Operator) &&
-                node.Right.IsTypeOf(SyntaxNodeType.Operator);
-        }
-
-        public SyntaxNode AlgebraicallySimplifyNestedOperator(OperatorNode node)
-        {
-            OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
-            NumberNode leftCoefficient = (NumberNode)node.Left.Left;
-            NumberNode rightCoefficient = (NumberNode)node.Right.Left;
-
-            operatorNode.Left = new NumberNode(leftCoefficient.Value + rightCoefficient.Value);
-            operatorNode.Right = new IdentifierNode("j");
-            return operatorNode;
-        }
-
         public override string ToString()
         {
             return Tree.ToString();
