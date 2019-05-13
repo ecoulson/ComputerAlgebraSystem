@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ExpressionParser.SyntaxTree
+namespace ExpressionParser.Lex
 {
     public class EndOfTokenStreamException : Exception
     {

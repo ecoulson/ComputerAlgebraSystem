@@ -39,7 +39,6 @@
     <Compile Include="SyntaxTree\SyntaxNode.cs" />
     <Compile Include="SyntaxTree\UnexpectedTokenException.cs" />
     <Compile Include="SyntaxTree\SyntaxNodeType.cs" />
-    <Compile Include="SyntaxTree\EndOfTokenStreamException.cs" />
     <Compile Include="SyntaxTree\IdentifierNode.cs" />
     <Compile Include="SyntaxTree\FunctionOrDistributionNode.cs" />
     <Compile Include="SyntaxTree\NumberNode.cs" />
@@ -59,6 +58,8 @@
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="SyntaxTree\ParenthesesNode.cs" />
     <Compile Include="Lex\RawExpression.cs" />
+    <Compile Include="Lex\Tokens.cs" />
+    <Compile Include="Lex\EndOfTokenStreamException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />

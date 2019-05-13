@@ -8,10 +8,10 @@ namespace ExpressionParser.Lex
     {
         private static RawExpression expression;
 
-        public static List<Token> Lex(RawExpression expression)
+        public static Tokens Lex(RawExpression expression)
         {
             Lexer.expression = expression;
-            List<Token> tokens = new List<Token>();
+            Tokens tokens = new Tokens();
 
             while (expression.CanRead())
             {

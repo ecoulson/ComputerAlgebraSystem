@@ -42,6 +42,7 @@
     <Compile Include="Semantics\IdentifierResolverTest.cs" />
     <Compile Include="Parsing\ParserTests.cs" />
     <Compile Include="Lex\RawExpressionTest.cs" />
+    <Compile Include="Lex\TokensTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
