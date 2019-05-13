@@ -4,15 +4,27 @@ using ExpressionParser.Semantics;
 using ExpressionParser.SyntaxTree;
 using NUnit.Framework;
 
-namespace ExpressionParser.Tests.Semantics
+namespace ExpressionParser.Tests.SemanticTest
 {
     [TestFixture]
     public class SemanticAnalyzerTest
     {
         [Test]
+        public void Analyze_NegativeNumber_ReturnsNumberNode()
+        {
+            SyntaxNode node = new OperatorNode(Operator.Multiplication);
+            node.Left = new NumberNode(-1);
+            node.Right = new NumberNode(2);
+
+            node = SemanticAnalyzer.Analyze(node, new Environment());
+
+            Assert.AreEqual("-2", node.ToString());
+        }
+
+        [Test]
         public void Analyze_Identifier_ThrowsUndefinedIdentifier()
         {
-            SyntaxNode node = new IdentifierNode(new Token(TokenType.Identifier, "x"));
+            SyntaxNode node = new IdentifierNode("x");
             Environment environment = new Environment();
 
             UndefinedSymbolException exception = Assert.Throws<UndefinedSymbolException>(() =>
@@ -27,7 +39,7 @@ namespace ExpressionParser.Tests.Semantics
         [Test]
         public void Analyze_NumberSymbol_ReturnsIdentifierNode()
         {
-            SyntaxNode node = new IdentifierNode(new Token(TokenType.Identifier, "x"));
+            SyntaxNode node = new IdentifierNode("x");
             Environment environment = new Environment();
             environment.AddValue("x", 2);
 
@@ -41,7 +53,7 @@ namespace ExpressionParser.Tests.Semantics
         [Test]
         public void Analyze_VariableSymbol_ReturnsIdentifierNode()
         {
-            SyntaxNode node = new IdentifierNode(new Token(TokenType.Identifier, "x"));
+            SyntaxNode node = new IdentifierNode("x");
             Environment environment = new Environment();
             environment.AddSymbol("x");
 

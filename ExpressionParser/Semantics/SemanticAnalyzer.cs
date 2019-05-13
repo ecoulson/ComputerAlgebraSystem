@@ -30,13 +30,14 @@ namespace ExpressionParser.Semantics
                 case SyntaxNodeType.Operator:
                     node.Left = Analyze(node.Left);
                     node.Right = Analyze(node.Right);
+                    node = AnalyzeOperator((OperatorNode)node);
                     return node;
                 case SyntaxNodeType.Function:
                     node.Left = Analyze(node.Left);
                     node.Right = Analyze(node.Right);
                     return node;
                 default:
-                    throw new System.ArgumentException($"Unkown syntax node type '{node.Type}'");
+                    throw new System.ArgumentException($"Unknown syntax node type '{node.Type}'");
             }
         }
 
@@ -96,6 +97,30 @@ namespace ExpressionParser.Semantics
                 Left = AnalyzeIdentifier(lhs),
                 Right = Analyze(rhs)
             };
+        }
+
+        private static SyntaxNode AnalyzeOperator(OperatorNode node)
+        {
+            if (IsNegativeConstantMultiplication(node))
+            {
+                NumberNode leftNumber = (NumberNode)node.Left;
+                NumberNode rightNumber = (NumberNode)node.Right;
+                return new NumberNode(leftNumber.Value * rightNumber.Value);
+            }
+            return node;
+        }
+
+        private static bool IsNegativeConstantMultiplication(OperatorNode node)
+        {
+            return node.Operator == Operator.Multiplication &&
+                node.Left.IsTypeOf(SyntaxNodeType.Number) &&
+                node.Right.IsTypeOf(SyntaxNodeType.Number) &&
+                (IsNegativeOne(node.Left) || IsNegativeOne(node.Right));
+        }
+
+        private static bool IsNegativeOne(SyntaxNode node)
+        {
+            return ((NumberNode)node).Value == -1;
         }
     }
 }

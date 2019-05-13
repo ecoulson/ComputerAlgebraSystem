@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ExpressionParser.Lex;
 using NUnit.Framework;
 
-namespace ExpressionParser.Tests.Lex
+namespace ExpressionParser.Tests.LexerTest
 {
     [TestFixture]
     public class LexerTest
