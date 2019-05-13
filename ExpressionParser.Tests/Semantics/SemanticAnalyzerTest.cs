@@ -12,9 +12,11 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_NegativeNumber_ReturnsNumberNode()
         {
-            SyntaxNode node = new OperatorNode(Operator.Multiplication);
-            node.Left = new NumberNode(-1);
-            node.Right = new NumberNode(2);
+            SyntaxNode node = new OperatorNode(Operator.Multiplication)
+            {
+                Left = new NumberNode(-1),
+                Right = new NumberNode(2)
+            };
 
             node = SemanticAnalyzer.Analyze(node, new Environment());
 
@@ -43,11 +45,9 @@ namespace ExpressionParser.Tests.SemanticTest
             Environment environment = new Environment();
             environment.AddValue("x", 2);
 
-            IdentifierNode number = (IdentifierNode)SemanticAnalyzer.Analyze(node, environment);
+            node = SemanticAnalyzer.Analyze(node, environment);
 
-            Assert.NotNull(number);
-            Assert.AreEqual(SyntaxNodeType.Identifier, number.Type);
-            Assert.AreEqual("x", number.Value);
+            Assert.AreEqual("x", node.ToString());
         }
 
         [Test]
@@ -57,11 +57,9 @@ namespace ExpressionParser.Tests.SemanticTest
             Environment environment = new Environment();
             environment.AddSymbol("x");
 
-            IdentifierNode symbol = (IdentifierNode)SemanticAnalyzer.Analyze(node, environment);
+            node = SemanticAnalyzer.Analyze(node, environment);
 
-            Assert.NotNull(symbol);
-            Assert.AreEqual(SyntaxNodeType.Identifier, symbol.Type);
-            Assert.AreEqual("x", symbol.Value);
+            Assert.AreEqual("x", node.ToString());
         }
 
         [Test]
@@ -69,11 +67,9 @@ namespace ExpressionParser.Tests.SemanticTest
         {
             SyntaxNode node = new NumberNode(1);
 
-            NumberNode number = (NumberNode)SemanticAnalyzer.Analyze(node, new Environment());
+            node = SemanticAnalyzer.Analyze(node, new Environment());
 
-            Assert.NotNull(number);
-            Assert.AreEqual(SyntaxNodeType.Number, number.Type);
-            Assert.AreEqual(1, number.Value);
+            Assert.AreEqual("1", node.ToString());
         }
 
         [Test]
@@ -86,16 +82,9 @@ namespace ExpressionParser.Tests.SemanticTest
             Environment environment = new Environment();
             environment.AddFunction("x", null);
 
-            FunctionNode function = (FunctionNode)SemanticAnalyzer.Analyze(root, environment);
-            IdentifierNode functionName = (IdentifierNode)function.Left;
-            NumberNode callValue = (NumberNode)function.Right;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(function);
-            Assert.NotNull(function.Left);
-            Assert.NotNull(function.Right);
-            Assert.AreEqual(SyntaxNodeType.Function, function.Type);
-            Assert.AreEqual("x", functionName.Value);
-            Assert.AreEqual(1, callValue.Value);
+            Assert.AreEqual("x(1)", root.ToString());
         }
 
         [Test]
@@ -108,17 +97,9 @@ namespace ExpressionParser.Tests.SemanticTest
             Environment environment = new Environment();
             environment.AddSymbol("x");
 
-            OperatorNode multiplier = (OperatorNode)SemanticAnalyzer.Analyze(root, environment);
-            IdentifierNode lhs = (IdentifierNode)multiplier.Left;
-            NumberNode rhs = (NumberNode)multiplier.Right;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(multiplier);
-            Assert.NotNull(multiplier.Left);
-            Assert.NotNull(multiplier.Right);
-            Assert.AreEqual(SyntaxNodeType.Operator, multiplier.Type);
-            Assert.AreEqual(Operator.Multiplication, multiplier.Operator);
-            Assert.AreEqual("x", lhs.Value);
-            Assert.AreEqual(1, rhs.Value);
+            Assert.AreEqual("x * 1", root.ToString());
         }
 
         [Test]
@@ -131,17 +112,9 @@ namespace ExpressionParser.Tests.SemanticTest
             Environment environment = new Environment();
             environment.AddValue("x", 2);
 
-            OperatorNode multiplier = (OperatorNode)SemanticAnalyzer.Analyze(root, environment);
-            IdentifierNode lhs = (IdentifierNode)multiplier.Left;
-            NumberNode rhs = (NumberNode)multiplier.Right;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(multiplier);
-            Assert.NotNull(lhs);
-            Assert.NotNull(rhs);
-            Assert.AreEqual(SyntaxNodeType.Operator, multiplier.Type);
-            Assert.AreEqual(Operator.Multiplication, multiplier.Operator);
-            Assert.AreEqual("x", lhs.Value);
-            Assert.AreEqual(1, rhs.Value);
+            Assert.AreEqual("x * 1", root.ToString());
         }
 
         [Test]
@@ -151,92 +124,56 @@ namespace ExpressionParser.Tests.SemanticTest
             SyntaxNode right = new NumberNode(1);
             SyntaxNode root = new FunctionOrDistributionNode(left, right);
 
-            FunctionNode function = (FunctionNode)SemanticAnalyzer.Analyze(root, new Environment());
-            IdentifierNode functionName = (IdentifierNode)function.Left;
-            NumberNode callValue = (NumberNode)function.Right;
+            root = SemanticAnalyzer.Analyze(root, new Environment());
 
-            Assert.NotNull(function);
-            Assert.NotNull(function.Left);
-            Assert.NotNull(function.Right);
-            Assert.AreEqual(SyntaxNodeType.Function, function.Type);
-            Assert.AreEqual("sin", functionName.Value);
-            Assert.AreEqual(1, callValue.Value);
+            Assert.AreEqual("sin(1)", root.ToString());
         }
 
         [Test]
         public void Analyze_RecognizeShorthandMultiplicationInsideIdentifer_ReturnsOperatorNode()
         {
-            IdentifierNode symbol = new IdentifierNode("xy");
+            SyntaxNode root = new IdentifierNode("xy");
             Environment environment = new Environment();
             environment.AddSymbol("x");
             environment.AddSymbol("y");
 
-            OperatorNode operatorNode = (OperatorNode)SemanticAnalyzer.Analyze(symbol, environment);
-            IdentifierNode x = (IdentifierNode)operatorNode.Left;
-            IdentifierNode y = (IdentifierNode)operatorNode.Right;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(operatorNode);
-            Assert.NotNull(x);
-            Assert.NotNull(y);
-            Assert.AreEqual(Operator.Multiplication, operatorNode.Operator);
-            Assert.AreEqual(SyntaxNodeType.Identifier, x.Type);
-            Assert.AreEqual(SyntaxNodeType.Identifier, y.Type);
-            Assert.AreEqual("x", x.Value);
-            Assert.AreEqual("y", y.Value);
+            Assert.AreEqual("x * y", root.ToString());
         }
 
         [Test]
         public void Analyze_RecognizeShorthandMultiplicationInsideIdentiferWithOneVariable_ReturnsOperatorNode()
         {
-            IdentifierNode symbol = new IdentifierNode("xx");
+            SyntaxNode root = new IdentifierNode("xx");
             Environment environment = new Environment();
             environment.AddSymbol("x");
 
-            OperatorNode operatorNode = (OperatorNode)SemanticAnalyzer.Analyze(symbol, environment);
-            IdentifierNode left = (IdentifierNode)operatorNode.Left;
-            IdentifierNode right = (IdentifierNode)operatorNode.Right;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(operatorNode);
-            Assert.NotNull(left);
-            Assert.NotNull(right);
-            Assert.AreEqual(Operator.Multiplication, operatorNode.Operator);
-            Assert.AreEqual(SyntaxNodeType.Identifier, left.Type);
-            Assert.AreEqual(SyntaxNodeType.Identifier, right.Type);
-            Assert.AreEqual("x", left.Value);
-            Assert.AreEqual("x", right.Value);
+            Assert.AreEqual("x * x", root.ToString());
         }
 
         [Test]
         public void Analyze_RecognizeShorthandMultiplicationInsideIdentifierWithPredefinedSymbols_ReturnsIdentifierNode()
         {
-            IdentifierNode symbol = new IdentifierNode("xe");
+            SyntaxNode root = new IdentifierNode("xe");
             Environment environment = new Environment();
             environment.AddSymbol("x");
 
-            OperatorNode operatorNode = (OperatorNode)SemanticAnalyzer.Analyze(symbol, environment);
-            IdentifierNode left = (IdentifierNode)operatorNode.Left;
-            IdentifierNode right = (IdentifierNode)operatorNode.Right;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(operatorNode);
-            Assert.NotNull(left);
-            Assert.NotNull(right);
-            Assert.AreEqual(Operator.Multiplication, operatorNode.Operator);
-            Assert.AreEqual(SyntaxNodeType.Identifier, left.Type);
-            Assert.AreEqual(SyntaxNodeType.Identifier, right.Type);
-            Assert.AreEqual("x", left.Value);
-            Assert.AreEqual("e", right.Value);
+            Assert.AreEqual("x * e", root.ToString());
         }
 
         [Test]
         public void Analyze_Keyword_ReturnsIdentifierNode()
         {
-            IdentifierNode symbol = new IdentifierNode("e");
+            SyntaxNode root = new IdentifierNode("e");
 
-            IdentifierNode node = (IdentifierNode)SemanticAnalyzer.Analyze(symbol, new Environment());
+            root = SemanticAnalyzer.Analyze(root, new Environment());
 
-            Assert.NotNull(node);
-            Assert.AreEqual(SyntaxNodeType.Identifier, node.Type);
-            Assert.AreEqual("e", node.Value);
+            Assert.AreEqual("e", root.ToString());
         }
 
         [Test]
@@ -272,24 +209,21 @@ namespace ExpressionParser.Tests.SemanticTest
         {
             Environment environment = new Environment();
             environment.AddSymbol("x");
-            ParenthesesNode node = new ParenthesesNode(new IdentifierNode("x"));
+            SyntaxNode root = new ParenthesesNode(new IdentifierNode("x"));
 
-            node = (ParenthesesNode)SemanticAnalyzer.Analyze(node, environment);
-            IdentifierNode xNode = (IdentifierNode)node.Left;
+            root = SemanticAnalyzer.Analyze(root, environment);
 
-            Assert.NotNull(node);
-            Assert.NotNull(xNode);
-            Assert.AreEqual(SyntaxNodeType.Parentheses, node.Type);
-            Assert.AreEqual(SyntaxNodeType.Identifier, xNode.Type);
-            Assert.AreEqual("x", xNode.Value);
+            Assert.AreEqual("(x)", root.ToString());
         }
 
         [Test]
         public void Analyze_OperatorIllegalLHS_ThrowsException()
         {
-            OperatorNode node = new OperatorNode(Operator.Addition);
-            node.Left = new IdentifierNode("x");
-            node.Right = new NumberNode(2);
+            OperatorNode node = new OperatorNode(Operator.Addition)
+            {
+                Left = new IdentifierNode("x"),
+                Right = new NumberNode(2)
+            };
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -297,9 +231,11 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_OperatorIllegalRHS_ThrowsException()
         {
-            OperatorNode node = new OperatorNode(Operator.Addition);
-            node.Left = new NumberNode(2);
-            node.Right = new IdentifierNode("x");
+            OperatorNode node = new OperatorNode(Operator.Addition)
+            {
+                Left = new NumberNode(2),
+                Right = new IdentifierNode("x")
+            };
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -307,31 +243,25 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_Operator_ReturnsOperatorNode()
         {
-            OperatorNode node = new OperatorNode(Operator.Addition);
-            node.Left = new NumberNode(2);
-            node.Right = new NumberNode(2);
+            SyntaxNode node = new OperatorNode(Operator.Addition)
+            {
+                Left = new NumberNode(2),
+                Right = new NumberNode(2)
+            };
 
-            node = (OperatorNode)SemanticAnalyzer.Analyze(node, new Environment());
-            NumberNode lhsNode = (NumberNode)node.Left;
-            NumberNode rhsNode = (NumberNode)node.Right;
+            node = SemanticAnalyzer.Analyze(node, new Environment());
 
-            Assert.NotNull(node);
-            Assert.NotNull(lhsNode);
-            Assert.NotNull(rhsNode);
-            Assert.AreEqual(node.Type, SyntaxNodeType.Operator);
-            Assert.AreEqual(lhsNode.Type, SyntaxNodeType.Number);
-            Assert.AreEqual(rhsNode.Type, SyntaxNodeType.Number);
-            Assert.AreEqual(node.Operator, Operator.Addition);
-            Assert.AreEqual(lhsNode.Value, 2);
-            Assert.AreEqual(rhsNode.Value, 2);
+            Assert.AreEqual("2 + 2", node.ToString());
         }
 
         [Test]
         public void Analyze_FunctionUndefinedName_ThrowsException()
         {
-            FunctionNode node = new FunctionNode();
-            node.Left = new IdentifierNode("f");
-            node.Right = new NumberNode(2);
+            FunctionNode node = new FunctionNode
+            {
+                Left = new IdentifierNode("f"),
+                Right = new NumberNode(2)
+            };
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -339,9 +269,11 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_FunctionIllegalCallExpression_ThrowsException()
         {
-            FunctionNode node = new FunctionNode();
-            node.Left = new IdentifierNode("ln");
-            node.Right = new IdentifierNode("x");
+            FunctionNode node = new FunctionNode
+            {
+                Left = new IdentifierNode("ln"),
+                Right = new IdentifierNode("x")
+            };
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -349,22 +281,15 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_Function_ReturnsFunctionNode()
         {
-            FunctionNode node = new FunctionNode();
-            node.Left = new IdentifierNode("ln");
-            node.Right = new IdentifierNode("e");
+            SyntaxNode root = new FunctionNode
+            {
+                Left = new IdentifierNode("ln"),
+                Right = new IdentifierNode("e")
+            };
 
-            node = (FunctionNode)SemanticAnalyzer.Analyze(node, new Environment());
-            IdentifierNode nameNode = (IdentifierNode)node.Left;
-            IdentifierNode callNode = (IdentifierNode)node.Right;
+            root = SemanticAnalyzer.Analyze(root, new Environment());
 
-            Assert.NotNull(node);
-            Assert.NotNull(nameNode);
-            Assert.NotNull(callNode);
-            Assert.AreEqual(node.Type, SyntaxNodeType.Function);
-            Assert.AreEqual(nameNode.Type, SyntaxNodeType.Identifier);
-            Assert.AreEqual(callNode.Type, SyntaxNodeType.Identifier);
-            Assert.AreEqual(nameNode.Value, "ln");
-            Assert.AreEqual(callNode.Value, "e");
+            Assert.AreEqual("ln(e)", root.ToString());
         }
     }
 }
