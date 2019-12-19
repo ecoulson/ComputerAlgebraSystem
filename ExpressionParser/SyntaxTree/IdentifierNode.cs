@@ -21,5 +21,10 @@ namespace ExpressionParser.SyntaxTree
         {
             return Value;
         }
+
+        public override SyntaxNode Copy()
+        {
+            return new IdentifierNode(Value);
+        }
     }
 }

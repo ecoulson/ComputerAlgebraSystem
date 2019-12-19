@@ -60,6 +60,7 @@
     <Compile Include="Lex\RawExpression.cs" />
     <Compile Include="Lex\Tokens.cs" />
     <Compile Include="Lex\EndOfTokenStreamException.cs" />
+    <Compile Include="Semantics\IllegalNodeTypeException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Lex\" />

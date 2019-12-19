@@ -13,11 +13,20 @@ namespace ExpressionParser.SyntaxTree
         public FunctionNode(IdentifierNode name, SyntaxNode expression) : base (SyntaxNodeType.Function)
         {
             Name = name.Value;
+            Expression = expression;
+
+            Left = name;
+            Right = expression;
         }
 
         public override string ToString()
         {
             return $"{Left.ToString()}({Right.ToString()})";
+        }
+
+        public override SyntaxNode Copy()
+        {
+            return new FunctionNode((IdentifierNode)Left.Copy(), Right.Copy());
         }
     }
 }

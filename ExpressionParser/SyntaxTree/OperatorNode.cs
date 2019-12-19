@@ -41,6 +41,14 @@ namespace ExpressionParser.SyntaxTree
             return $"{Left.ToString()} {OperatorToString()} {Right.ToString()}";
         }
 
+        public override SyntaxNode Copy()
+        {
+            OperatorNode copy = new OperatorNode(Operator);
+            copy.Left = Left.Copy();
+            copy.Right = Right.Copy();
+            return copy;
+        }
+
         private string OperatorToString()
         {
             switch (Operator)

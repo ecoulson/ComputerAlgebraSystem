@@ -18,5 +18,10 @@ namespace ExpressionParser.SyntaxTree
         {
             return $"{Left.ToString()}({Right.ToString()})";
         }
+
+        public override SyntaxNode Copy()
+        {
+            return new FunctionOrDistributionNode((IdentifierNode)Left.Copy(), Right.Copy());
+        }
     }
 }

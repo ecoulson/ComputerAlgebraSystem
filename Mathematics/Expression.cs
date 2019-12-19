@@ -33,6 +33,11 @@ namespace Mathematics
             return node;
         }
 
+        public Environment GetEnvironment()
+        {
+            return environment;
+        }
+
         public override string ToString()
         {
             return Tree.ToString();

@@ -38,6 +38,8 @@
     <Compile Include="ExpressionSimplification\LeftNestedAlgebraicSimplifierTest.cs" />
     <Compile Include="ExpressionSimplification\RightNestedAlgebraicSimplifierTest.cs" />
     <Compile Include="ExpressionSimplification\NestedAlgebraicSimplifierTest.cs" />
+    <Compile Include="FunctionTest.cs" />
+    <Compile Include="Calculus\DerivativeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -54,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExpressionSimplification\" />
+    <Folder Include="Calculus\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

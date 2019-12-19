@@ -12,5 +12,10 @@ namespace ExpressionParser.SyntaxTree
         {
             return $"({Left.ToString()})";
         }
+
+        public override SyntaxNode Copy()
+        {
+            return new ParenthesesNode(Left.Copy());
+        }
     }
 }

@@ -39,6 +39,9 @@
     <Compile Include="ExpressionSimplification\LeftNestedAlgebraicSimplifier.cs" />
     <Compile Include="ExpressionSimplification\RightNestedAlgebraicSimplifier.cs" />
     <Compile Include="ExpressionSimplification\NestedAlgebraicSimplifier.cs" />
+    <Compile Include="Function.cs" />
+    <Compile Include="Calculus\Derivative.cs" />
+    <Compile Include="Calculus\IDerivative.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">
@@ -48,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExpressionSimplification\" />
+    <Folder Include="Calculus\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

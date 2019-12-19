@@ -25,5 +25,10 @@ namespace ExpressionParser.SyntaxTree
         {
             return Value.ToString();
         }
+
+        public override SyntaxNode Copy()
+        {
+            return new NumberNode(Value);
+        }
     }
 }

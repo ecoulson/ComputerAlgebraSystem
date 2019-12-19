@@ -48,6 +48,7 @@ namespace ExpressionParser.Parsing
             if (mapping.ContainsKey(symbol))
                 throw new DefinedSymbolException(symbol);
             mapping[symbol] = new EnvironmentVariable(symbol);
+
         }
 
         public void AddFunction(string symbol, SyntaxNode expression)
@@ -84,10 +85,19 @@ namespace ExpressionParser.Parsing
             throw new ArgumentException($"Unknown variable '{symbol}' not found in environment");
         }
 
-
-        public bool HasVariable(string symbol)
+        public bool HasFunction(string name)
         {
-            return mapping.ContainsKey(symbol);
+            return mapping.ContainsKey(name) && mapping[name].IsTypeOf(EnvironmentVariableType.Function);
+        }
+
+        public bool HasVariable(string variable)
+        {
+            return mapping.ContainsKey(variable);
+        }
+
+        public bool HasConstant(string constant)
+        {
+            return mapping.ContainsKey(constant) && mapping[constant].IsTypeOf(EnvironmentVariableType.Number);
         }
 
         public bool IsPredefinedFunction(string symbol)

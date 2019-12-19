@@ -16,5 +16,7 @@ namespace ExpressionParser.SyntaxTree
         {
             return type == Type;
         }
+
+        public abstract SyntaxNode Copy();
     }
 }
