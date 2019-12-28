@@ -31,6 +31,8 @@ namespace ExpressionParser.SyntaxTree
             TokenType.Number
         };
 
+        public static readonly NumberNode NegativeOne = new NumberNode(-1);
+            
         public static readonly Token MultiplyToken = new Token(TokenType.Multiply);
     }
 }

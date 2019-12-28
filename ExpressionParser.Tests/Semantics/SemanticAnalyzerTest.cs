@@ -1,4 +1,5 @@
-﻿using ExpressionParser.Lex;
+﻿using System.Collections.Generic;
+using ExpressionParser.Lex;
 using ExpressionParser.Parsing;
 using ExpressionParser.Semantics;
 using ExpressionParser.SyntaxTree;
@@ -12,11 +13,11 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_NegativeNumber_ReturnsNumberNode()
         {
-            SyntaxNode node = new OperatorNode(Operator.Multiplication)
+            SyntaxNode node = new OperatorNode(Operator.Multiplication, new List<SyntaxNode>
             {
-                Left = new NumberNode(-1),
-                Right = new NumberNode(2)
-            };
+                new NumberNode(-1),
+                new NumberNode(2)
+            });
 
             node = SemanticAnalyzer.Analyze(node, new Environment());
 
@@ -219,23 +220,23 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_OperatorIllegalLHS_ThrowsException()
         {
-            OperatorNode node = new OperatorNode(Operator.Addition)
+            OperatorNode node = new OperatorNode(Operator.Addition, new List<SyntaxNode>
             {
-                Left = new IdentifierNode("x"),
-                Right = new NumberNode(2)
-            };
-
+                new IdentifierNode("x"),
+                new NumberNode(2)
+            });
+            
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
 
         [Test]
         public void Analyze_OperatorIllegalRHS_ThrowsException()
         {
-            OperatorNode node = new OperatorNode(Operator.Addition)
+            OperatorNode node = new OperatorNode(Operator.Addition, new List<SyntaxNode>
             {
-                Left = new NumberNode(2),
-                Right = new IdentifierNode("x")
-            };
+                new NumberNode(2),
+                new IdentifierNode("x")
+            });
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -243,11 +244,11 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_Operator_ReturnsOperatorNode()
         {
-            SyntaxNode node = new OperatorNode(Operator.Addition)
+            SyntaxNode node = new OperatorNode(Operator.Addition, new List<SyntaxNode>
             {
-                Left = new NumberNode(2),
-                Right = new NumberNode(2)
-            };
+                new NumberNode(2),
+                new NumberNode(2)
+            });
 
             node = SemanticAnalyzer.Analyze(node, new Environment());
 
@@ -257,11 +258,10 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_FunctionUndefinedName_ThrowsException()
         {
-            FunctionNode node = new FunctionNode
+            FunctionNode node = new FunctionNode(new IdentifierNode("f"), new List<SyntaxNode>
             {
-                Left = new IdentifierNode("f"),
-                Right = new NumberNode(2)
-            };
+                new NumberNode(2)
+            });
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -269,11 +269,10 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_FunctionIllegalCallExpression_ThrowsException()
         {
-            FunctionNode node = new FunctionNode
+            FunctionNode node = new FunctionNode(new IdentifierNode("ln"), new List<SyntaxNode>
             {
-                Left = new IdentifierNode("ln"),
-                Right = new IdentifierNode("x")
-            };
+                new IdentifierNode("x")
+            });
 
             Assert.Throws<UndefinedSymbolException>(() => SemanticAnalyzer.Analyze(node, new Environment()));
         }
@@ -281,11 +280,10 @@ namespace ExpressionParser.Tests.SemanticTest
         [Test]
         public void Analyze_Function_ReturnsFunctionNode()
         {
-            SyntaxNode root = new FunctionNode
+            SyntaxNode root = new FunctionNode(new IdentifierNode("ln"), new List<SyntaxNode>
             {
-                Left = new IdentifierNode("ln"),
-                Right = new IdentifierNode("e")
-            };
+                new IdentifierNode("e")
+            });
 
             root = SemanticAnalyzer.Analyze(root, new Environment());
 

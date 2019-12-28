@@ -4,136 +4,173 @@ using ExpressionParser.Lex;
 
 namespace ExpressionParser.SyntaxTree
 {
-    public static class SyntaxTreeBuilder
+    public class SyntaxTreeBuilder
     {
-        private static Tokens tokens;
+        private Tokens tokens;
 
-        public static SyntaxNode BuildTree(Tokens tokens)
+        public SyntaxNode BuildTree(Tokens tokens)
         {
-            SyntaxTreeBuilder.tokens = tokens;
+            this.tokens = tokens;
 
             return ReadExpression();
         }
 
         #region Expression Nonterminal
 
-        private static SyntaxNode ReadExpression()
+        private  SyntaxNode ReadExpression()
         {
             tokens.AssertCanRead();
-            SyntaxNode root = ReadTerm();
-            while (NextTokenIsTermOperator())
+            SyntaxNode firstTerm = ReadTerm();
+            if (NextTokenIsATermOperator())
+            {
+                return new OperatorNode(Operator.Addition, ReadExpressionOperands(firstTerm));
+            }
+            return firstTerm;
+        }
+
+        private bool NextTokenIsATermOperator()
+        {
+            return tokens.CanRead() && tokens.IsPeekTypeOfOne(SyntaxTreeConstants.TermOperatorTypes);
+        }
+
+        private List<SyntaxNode> ReadExpressionOperands(SyntaxNode firstTerm)
+        {
+            List<SyntaxNode> operands = new List<SyntaxNode> { firstTerm };
+            while (NextTokenIsATermOperator())
             {
                 tokens.AssertCanRead();
                 tokens.AssertPeekIsTypeOfOne(SyntaxTreeConstants.TermOperatorTypes);
 
-                SyntaxNode operatorNode = new OperatorNode(tokens.Next());
-
-                operatorNode.Left = root;
-                root = operatorNode;
-                root.Right = ReadTerm();
+                AddToExpressionOperands(tokens.Next(), operands);
             }
-            return root;
+            return operands;
         }
 
-        private static bool NextTokenIsTermOperator()
+        private void AddToExpressionOperands(Token operatorToken, List<SyntaxNode> operands)
         {
-            return tokens.CanRead() && tokens.IsPeekTypeOfOne(SyntaxTreeConstants.TermOperatorTypes);
+            if (operatorToken.IsTypeOf(TokenType.Addition))
+            {
+                operands.Add(ReadTerm());
+            }
+            else
+            {
+                operands.Add(new OperatorNode(Operator.Multiplication, new List<SyntaxNode>
+                {
+                    SyntaxTreeConstants.NegativeOne,
+                    ReadTerm()
+                }));
+            }
         }
 
         #endregion
 
         #region Term Nonterminal
 
-        private static SyntaxNode ReadTerm()
+        private SyntaxNode ReadTerm()
         {
             tokens.AssertCanRead();
             SyntaxNode root = ReadFactor();
-
-            while (IsNextTokenFactorOperator() || IsNextTokenAShorthandFactor())
+            if (NextTokenIsAFactorOperator() || NextTokenIsAShorthandFactor())
             {
-                if (IsNextTokenFactorOperator())
-                {
-                    root = ReadComplexFactor(root);
-                }
-                else if (IsNextTokenAShorthandFactor())
-                {
-                    root = ReadShortHandFactor(root);
-                }
+                return new OperatorNode(Operator.Multiplication, ReadTermOperands(root));
             }
-
             return root;
         }
 
-        private static bool IsNextTokenFactorOperator()
+        private bool NextTokenIsAFactorOperator()
         {
             return tokens.CanRead() &&
                     tokens.IsPeekTypeOfOne(SyntaxTreeConstants.FactorOperatorTypes);
         }
 
-        private static bool IsNextTokenAShorthandFactor()
+        private bool NextTokenIsAShorthandFactor()
         {
-            return tokens.CanRead() && (
-                tokens.IsPeekTypeOf(TokenType.Identifier) ||
-                tokens.IsPeekTypeOf(TokenType.LeftParentheses)
-            );
+            return tokens.CanRead() &&
+                tokens.IsPeekTypeOfOne(SyntaxTreeConstants.ShorthandFactorOperatorTypes);
         }
 
-        private static SyntaxNode ReadComplexFactor(SyntaxNode rootNode)
+        private List<SyntaxNode> ReadTermOperands(SyntaxNode firstTerm)
+        {
+            List<SyntaxNode> operands = new List<SyntaxNode> { firstTerm };
+            while (NextTokenIsAFactorOperator() || NextTokenIsAShorthandFactor())
+            {
+                if (NextTokenIsAFactorOperator())
+                {
+                    AddComplexFactorToOperands(operands);
+                }
+                else if (NextTokenIsAShorthandFactor())
+                {
+                    AddShortHandFactorToOperands(operands);
+                }
+            }
+            return operands;
+        }
+
+        private void AddComplexFactorToOperands(List<SyntaxNode> operands)
         {
             tokens.AssertCanRead();
             tokens.AssertPeekIsTypeOfOne(SyntaxTreeConstants.FactorOperatorTypes);
-
-            SyntaxNode operatorNode = new OperatorNode(tokens.Next());
-
-            operatorNode.Left = rootNode;
-            rootNode = operatorNode;
-            rootNode.Right = ReadFactor();
-            return rootNode;
+            Token operatorToken = tokens.Next();
+            if (operatorToken.IsTypeOf(TokenType.Multiply))
+            {
+                operands.Add(ReadFactor());
+            }
+            else
+            {
+                operands.Add(new OperatorNode(Operator.Exponentiation, new List<SyntaxNode>
+                {
+                    ReadFactor(),
+                    new NumberNode(-1)
+                }));
+            }
         }
 
-        private static SyntaxNode ReadShortHandFactor(SyntaxNode root)
+        private void AddShortHandFactorToOperands(List<SyntaxNode> operands)
         {
             tokens.AssertCanRead();
             tokens.AssertPeekIsTypeOfOne(SyntaxTreeConstants.ShorthandFactorOperatorTypes);
-
-            SyntaxNode multiplyNode = new OperatorNode(SyntaxTreeConstants.MultiplyToken);
-
-            multiplyNode.Left = root;
-            root = multiplyNode;
-            root.Right = ReadFactor();
-            return root;
+            operands.Add(ReadFactor());
         }
 
         #endregion
 
         #region Factor Nonterminal
 
-        private static SyntaxNode ReadFactor()
+        private SyntaxNode ReadFactor()
         {
             tokens.AssertCanRead();
             SyntaxNode root = ReadFormal();
-            while (NextTokenIsExponentOperator()) {
-                tokens.AssertCanRead();
-                tokens.AssertPeekIsTypeOf(TokenType.Exponent);
-
-                SyntaxNode operatorNode = new OperatorNode(tokens.Next());
-                operatorNode.Left = root;
-                root = operatorNode;
-                root.Right = ReadFormal();
+            if (NextTokenIsExponentOperator())
+            {
+                return new OperatorNode(Operator.Exponentiation, ReadFactorOperands(root));
             }
             return root;
         }
 
-        private static bool NextTokenIsExponentOperator()
+        private bool NextTokenIsExponentOperator()
         {
             return tokens.CanRead() && tokens.IsPeekTypeOf(TokenType.Exponent);
+        }
+
+        private List<SyntaxNode> ReadFactorOperands(SyntaxNode firstTerm)
+        {
+            List<SyntaxNode> operands = new List<SyntaxNode> { firstTerm };
+            while (NextTokenIsExponentOperator())
+            {
+                tokens.AssertCanRead();
+                tokens.AssertPeekIsTypeOf(TokenType.Exponent);
+                tokens.Next();
+
+                operands.Add(ReadFormal());
+            }
+            return operands;
         }
 
         #endregion
 
         #region Formal Nonterminal
 
-        private static SyntaxNode ReadFormal()
+        private SyntaxNode ReadFormal()
         {
             tokens.AssertCanRead();
             switch (tokens.Peek().Type)
@@ -154,7 +191,7 @@ namespace ExpressionParser.SyntaxTree
             }
         }
 
-        private static SyntaxNode ReadParenthesizedExpression()
+        private SyntaxNode ReadParenthesizedExpression()
         {
             tokens.AssertCanRead();
             tokens.AssertNextIsTypeOf(TokenType.LeftParentheses);
@@ -167,7 +204,7 @@ namespace ExpressionParser.SyntaxTree
             return new ParenthesesNode(expression);
         }
 
-        private static SyntaxNode HandleFormalIdentifierAmbiguity()
+        private SyntaxNode HandleFormalIdentifierAmbiguity()
         {
             tokens.AssertCanRead();
 
@@ -180,12 +217,12 @@ namespace ExpressionParser.SyntaxTree
             return new IdentifierNode(identifer);
         }
 
-        private static bool IdentifierIsAFunction()
+        private bool IdentifierIsAFunction()
         {
             return tokens.CanRead() && tokens.IsPeekTypeOf(TokenType.LeftParentheses);
         }
 
-        private static SyntaxNode ReadFunction(Token nameToken)
+        private SyntaxNode ReadFunction(Token nameToken)
         {
             nameToken.AssertIsTypeOf(TokenType.Identifier);
             tokens.AssertCanRead();
@@ -199,16 +236,15 @@ namespace ExpressionParser.SyntaxTree
             return new FunctionOrDistributionNode(new IdentifierNode(nameToken), functionExpression);
         }
 
-        private static SyntaxNode ReadNegativeFormal()
+        private SyntaxNode ReadNegativeFormal()
         {
             tokens.AssertCanRead();
             tokens.AssertNextIsTypeOf(TokenType.Subtraction);
 
-            OperatorNode operatorNode = new OperatorNode(Operator.Multiplication);
-            operatorNode.Left = new NumberNode(-1);
-            operatorNode.Right = ReadFormal();
-
-            return operatorNode;
+            return new OperatorNode(Operator.Multiplication, new List<SyntaxNode>
+            {
+                new NumberNode(-1), ReadFormal()
+            });
         }
 
         #endregion

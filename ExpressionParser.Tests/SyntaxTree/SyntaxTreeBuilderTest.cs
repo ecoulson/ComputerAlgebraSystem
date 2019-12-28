@@ -9,6 +9,7 @@ namespace ExpressionParser.Tests.SyntaxTree
     [TestFixture]
     public class SyntaxTreeBuilderTest
     {
+        private SyntaxTreeBuilder builder = new SyntaxTreeBuilder();
         #region Expression Nonterminal Tests
 
         [Test]
@@ -19,7 +20,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Identifier, "a"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("a", node.ToString());
         }
@@ -34,7 +35,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "2")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 + 2", node.ToString());
         }
@@ -49,9 +50,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "2")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("1 - 2", node.ToString());
+            Assert.AreEqual("1 + -1 * 2", node.ToString());
         }
 
         #endregion
@@ -66,7 +67,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "1")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1", node.ToString());
         }
@@ -81,7 +82,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "2")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));;
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 * 2", node.ToString());
         }
@@ -95,7 +96,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Identifier, "x")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("2 * x", node.ToString());
         }
@@ -111,7 +112,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.RightParentheses)
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("2 * (x)", node.ToString());
         }
@@ -126,9 +127,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "2")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("1 / 2", node.ToString());
+            Assert.AreEqual("1 * 2 ^ -1", node.ToString());
         }
 
         #endregion
@@ -143,7 +144,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "1"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1", node.ToString());
         }
@@ -158,7 +159,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "2")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 ^ 2", node.ToString());
         }
@@ -176,7 +177,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             };
 
             UnexpectedTokenException exception = Assert.Throws<UnexpectedTokenException>(
-                () => SyntaxTreeBuilder.BuildTree(new Tokens(tokens))
+                () => builder.BuildTree(new Tokens(tokens))
             );
 
             Assert.AreEqual("Expected one of these 'LeftParentheses, Identifier, Number' tokens, but got 'Addition' instead.", exception.Message);
@@ -197,7 +198,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             };
 
             UnexpectedTokenException exception = Assert.Throws<UnexpectedTokenException>(
-                () => SyntaxTreeBuilder.BuildTree(new Tokens(tokens))
+                () => builder.BuildTree(new Tokens(tokens))
             );
 
             Assert.AreEqual("Expected 'RightParentheses' token, but got 'Number' instead.", exception.Message);
@@ -213,7 +214,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             };
 
             EndOfTokenStreamException exception = Assert.Throws<EndOfTokenStreamException>(
-                () => SyntaxTreeBuilder.BuildTree(new Tokens(tokens))
+                () => builder.BuildTree(new Tokens(tokens))
             );
 
             Assert.AreEqual("Unexpected end of token stream", exception.Message);
@@ -229,7 +230,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.RightParentheses)
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("(1)", node.ToString());
         }
@@ -246,7 +247,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "1")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1", node.ToString());
         }
@@ -260,7 +261,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "2")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("-1 * 2", node.ToString());
         }
@@ -277,7 +278,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Identifier, "x")
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("x", node.ToString());
         }
@@ -297,7 +298,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.RightParentheses),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("sin(1)", node.ToString());
         }
@@ -314,7 +315,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             };
 
             UnexpectedTokenException exception = Assert.Throws<UnexpectedTokenException>(
-                () => SyntaxTreeBuilder.BuildTree(new Tokens(tokens))
+                () => builder.BuildTree(new Tokens(tokens))
             );
 
             Assert.AreEqual($"Expected 'RightParentheses' token, but got 'Number' instead.", exception.Message);

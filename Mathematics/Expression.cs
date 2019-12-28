@@ -22,15 +22,10 @@ namespace Mathematics
 
         private SyntaxNode Simplify(SyntaxNode node)
         {
+            ConstantSimplifier constantSimplifier = new ConstantSimplifier(environment);
             if (node == null)
                 return node;
-
-            node.Left = Simplify(node.Left);
-            node.Right = Simplify(node.Right);
-
-            if (node.IsTypeOf(SyntaxNodeType.Operator))
-                return OperatorSimplification.Simplify((OperatorNode)node, environment);
-            return node;
+            return constantSimplifier.Simplify(node);
         }
 
         public Environment GetEnvironment()

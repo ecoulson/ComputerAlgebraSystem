@@ -1,32 +1,42 @@
-﻿using System;
+﻿using System.Collections.Generic;
+
 namespace ExpressionParser.SyntaxTree
 {
     public class FunctionNode : SyntaxNode
     {
-        public string Name { get; }
-        public SyntaxNode Expression { get; }
+        public IdentifierNode Name { get; set; }
+        public List<SyntaxNode> Arguments { get; set; }
 
         public FunctionNode() : base (SyntaxNodeType.Function)
         {
+            Arguments = new List<SyntaxNode>();
         }
 
-        public FunctionNode(IdentifierNode name, SyntaxNode expression) : base (SyntaxNodeType.Function)
+        public FunctionNode(IdentifierNode name, List<SyntaxNode> arguments) : base (SyntaxNodeType.Function)
         {
-            Name = name.Value;
-            Expression = expression;
-
-            Left = name;
-            Right = expression;
+            Name = name;
+            Arguments = arguments;
         }
 
         public override string ToString()
         {
-            return $"{Left.ToString()}({Right.ToString()})";
+            string argumentsList = "";
+            foreach(SyntaxNode argument in Arguments)
+            {
+                argumentsList += $"{argument.ToString()}, ";
+            }
+            argumentsList = argumentsList.Substring(0, argumentsList.Length - 2);
+            return $"{Name.ToString()}({argumentsList})";
         }
 
         public override SyntaxNode Copy()
         {
-            return new FunctionNode((IdentifierNode)Left.Copy(), Right.Copy());
+            List<SyntaxNode> copiedArguments = new List<SyntaxNode>();
+            foreach (SyntaxNode argument in Arguments)
+            {
+                copiedArguments.Add(argument.Copy());
+            }
+            return new FunctionNode((IdentifierNode)Name.Copy(), copiedArguments);
         }
     }
 }

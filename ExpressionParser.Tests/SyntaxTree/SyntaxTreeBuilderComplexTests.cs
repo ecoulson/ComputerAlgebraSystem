@@ -9,6 +9,7 @@ namespace ExpressionParser.Tests.SyntaxTree
     [TestFixture]
     public class SyntaxTreeBuilderComplexTests
     {
+        private SyntaxTreeBuilder builder = new SyntaxTreeBuilder();
         #region Tree Tests
 
         [Test]
@@ -17,7 +18,7 @@ namespace ExpressionParser.Tests.SyntaxTree
             List<Token> tokens = new List<Token>();
 
             EndOfTokenStreamException exception = Assert.Throws<EndOfTokenStreamException>(
-                () => SyntaxTreeBuilder.BuildTree(new Tokens(tokens))
+                () => builder.BuildTree(new Tokens(tokens))
             );
 
             Assert.AreEqual("Unexpected end of token stream", exception.Message);
@@ -35,7 +36,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "3"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 + 2 + 3", node.ToString());
         }
@@ -52,9 +53,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "3"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("1 - 2 - 3", node.ToString());
+            Assert.AreEqual("1 + -1 * 2 + -1 * 3", node.ToString());
         }
 
         [Test]
@@ -69,9 +70,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "3"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("1 + 2 - 3", node.ToString());
+            Assert.AreEqual("1 + 2 + -1 * 3", node.ToString());
         }
 
         [Test]
@@ -86,7 +87,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "3"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 * 2 * 3", node.ToString());
         }
@@ -103,9 +104,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "3"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("1 / 2 / 3", node.ToString());
+            Assert.AreEqual("1 * 2 ^ -1 * 3 ^ -1", node.ToString());
         }
 
         [Test]
@@ -120,7 +121,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Identifier, "y"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 * x * 2 * y", node.ToString());
         }
@@ -138,9 +139,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Identifier, "y"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("1 * x / 2 * y", node.ToString());
+            Assert.AreEqual("1 * x * 2 ^ -1 * y", node.ToString());
         }
 
         [Test]
@@ -155,7 +156,7 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.Number, "3"),
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
             Assert.AreEqual("1 ^ 2 ^ 3", node.ToString());
         }
@@ -187,9 +188,9 @@ namespace ExpressionParser.Tests.SyntaxTree
                 new Token(TokenType.RightParentheses)
             };
 
-            SyntaxNode node = SyntaxTreeBuilder.BuildTree(new Tokens(tokens));
+            SyntaxNode node = builder.BuildTree(new Tokens(tokens));
 
-            Assert.AreEqual("3 * x ^ 2 + x / y * (f(x(y)) - y)", node.ToString());
+            Assert.AreEqual("3 * x ^ 2 + x * y ^ -1 * (f(x(y)) + -1 * y)", node.ToString());
         }
 
         #endregion

@@ -22,7 +22,7 @@ namespace ExpressionParser.Tests.ParserTests
         {
             TestExpression(
                 "2 - 2",
-                "2 - 2",
+                "2 + -2",
                 new Environment()
             );
         }
@@ -51,7 +51,7 @@ namespace ExpressionParser.Tests.ParserTests
         {
             TestExpression(
                 "2 / 3",
-                "2 / 3", 
+                "2 * 3 ^ -1", 
                 new Environment()
             );
         }
@@ -61,7 +61,7 @@ namespace ExpressionParser.Tests.ParserTests
         {
             TestExpression(
                 "1 + 2 * 3 / 4 ^ 5",
-                "1 + 2 * 3 / 4 ^ 5",
+                "1 + 2 * 3 * 4 ^ 5 ^ -1",
                 new Environment()
             );
         }
@@ -71,7 +71,7 @@ namespace ExpressionParser.Tests.ParserTests
         {
             TestExpression(
                 "(1 + 2) * (3 / 4) ^ 5",
-                "(1 + 2) * (3 / 4) ^ 5",
+                "(1 + 2) * (3 * 4 ^ -1) ^ 5",
                 new Environment()
             );
         }
@@ -84,7 +84,7 @@ namespace ExpressionParser.Tests.ParserTests
 
             TestExpression(
                 "ln(x^2 + x - 3)", 
-                "ln(x ^ 2 + x - 3)", 
+                "ln(x ^ 2 + x + -3)", 
                 environment
             );
         }

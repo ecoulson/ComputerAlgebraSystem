@@ -9,7 +9,8 @@ namespace ExpressionParser.Parsing
     {
         public static SyntaxNode ParseExpression(string expression, Environment environment)
         {
-            SyntaxNode root = SyntaxTreeBuilder.BuildTree(Lexer.Lex(new RawExpression(expression)));
+            SyntaxTreeBuilder builder = new SyntaxTreeBuilder();
+            SyntaxNode root = builder.BuildTree(Lexer.Lex(new RawExpression(expression)));
             return SemanticAnalyzer.Analyze(root, environment);
         }
     }

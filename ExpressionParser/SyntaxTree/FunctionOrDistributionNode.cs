@@ -3,25 +3,28 @@ namespace ExpressionParser.SyntaxTree
 {
     public class FunctionOrDistributionNode : SyntaxNode
     {
+        public IdentifierNode Identifier { get; }
+        public SyntaxNode Expression { get; }
+
         public FunctionOrDistributionNode() : base(SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication)
         {
 
         }
 
-        public FunctionOrDistributionNode(IdentifierNode left, SyntaxNode right) : base(SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication)
+        public FunctionOrDistributionNode(IdentifierNode identifier, SyntaxNode expression) : base(SyntaxNodeType.AmbigiousFunctionOrShortHandMultiplication)
         {
-            Left = left;
-            Right = right;
+            Identifier = identifier;
+            Expression = expression;
         }
 
         public override string ToString()
         {
-            return $"{Left.ToString()}({Right.ToString()})";
+            return $"{Identifier.ToString()}({Expression.ToString()})";
         }
 
         public override SyntaxNode Copy()
         {
-            return new FunctionOrDistributionNode((IdentifierNode)Left.Copy(), Right.Copy());
+            return new FunctionOrDistributionNode((IdentifierNode)Identifier.Copy(), Expression.Copy());
         }
     }
 }

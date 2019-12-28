@@ -32,14 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExpressionTest.cs" />
-    <Compile Include="ExpressionSimplification\OperatorSimplificationTest.cs" />
-    <Compile Include="ExpressionSimplification\NumericalOperatorSimplifierTest.cs" />
-    <Compile Include="ExpressionSimplification\AlgebraicIdentitySimplifierTest.cs" />
-    <Compile Include="ExpressionSimplification\LeftNestedAlgebraicSimplifierTest.cs" />
-    <Compile Include="ExpressionSimplification\RightNestedAlgebraicSimplifierTest.cs" />
-    <Compile Include="ExpressionSimplification\NestedAlgebraicSimplifierTest.cs" />
     <Compile Include="FunctionTest.cs" />
     <Compile Include="Calculus\DerivativeTest.cs" />
+    <Compile Include="ExpressionSimplification\ConstantSimplifierTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

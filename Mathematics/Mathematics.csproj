@@ -33,15 +33,10 @@
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Expression.cs" />
-    <Compile Include="ExpressionSimplification\OperatorSimplification.cs" />
-    <Compile Include="ExpressionSimplification\NumericalOperatorSimplifier.cs" />
-    <Compile Include="ExpressionSimplification\AlgebraicIdentitySimplifier.cs" />
-    <Compile Include="ExpressionSimplification\LeftNestedAlgebraicSimplifier.cs" />
-    <Compile Include="ExpressionSimplification\RightNestedAlgebraicSimplifier.cs" />
-    <Compile Include="ExpressionSimplification\NestedAlgebraicSimplifier.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="Calculus\Derivative.cs" />
     <Compile Include="Calculus\IDerivative.cs" />
+    <Compile Include="ExpressionSimplification\ConstantSimplifier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpressionParser\ExpressionParser.csproj">

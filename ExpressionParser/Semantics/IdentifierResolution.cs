@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ExpressionParser.SyntaxTree;
 
 namespace ExpressionParser.Semantics
@@ -37,14 +35,14 @@ namespace ExpressionParser.Semantics
         public SyntaxNode ToSyntaxTree()
         {
             SyntaxNode root = new IdentifierNode(PopSymbol());
-            while (HasSymbols())
+            if (HasSymbols())
             {
-                OperatorNode multiplicationNode = new OperatorNode(Operator.Multiplication)
+                List<SyntaxNode> operands = new List<SyntaxNode> { root };
+                while (HasSymbols())
                 {
-                    Left = root
-                };
-                root = multiplicationNode;
-                root.Right = ToSyntaxTree();
+                    operands.Add(ToSyntaxTree());
+                }
+                return new OperatorNode(Operator.Multiplication, operands);
             }
             return root;
         }
