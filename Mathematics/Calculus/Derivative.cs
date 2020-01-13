@@ -28,6 +28,10 @@ namespace Mathematics.Calculus
 
         private SyntaxNode DeriveHelper(SyntaxNode node)
         {
+            if (IsConstant(node))
+            {
+                return new NumberNode(0);
+            }
             if (node.IsTypeOf(SyntaxNodeType.Identifier))
             {
                 return new NumberNode(1);
@@ -144,43 +148,50 @@ namespace Mathematics.Calculus
             return node;
         }
 
-        //private bool IsConstant(SyntaxNode node)
-        //{
-        //    if (node.IsTypeOf(SyntaxNodeType.Number) || IsConstantIdentifier(node))
-        //    {
-        //        return true;
-        //    }
-        //    if (node.IsTypeOf(SyntaxNodeType.Identifier) || node.IsTypeOf(SyntaxNodeType.Function))
-        //    {
-        //        return false;
-        //    }
-        //    if (node.IsTypeOf(SyntaxNodeType.Parentheses))
-        //    {
-        //        return IsConstant(node.Left);
-        //    }
-        //    if (node.Type == SyntaxNodeType.Operator)
-        //    {
-        //        return IsConstant(node.Left) && IsConstant(node.Right);
-        //    }
-        //    throw new IllegalNodeTypeException($"Unexpected node type of {node.Type}");
-        //}
+        private bool IsConstant(SyntaxNode node)
+        {
+            if (node.IsTypeOf(SyntaxNodeType.Number) || IsConstantIdentifier(node))
+            {
+                return true;
+            }
+            if (node.IsTypeOf(SyntaxNodeType.Identifier) || node.IsTypeOf(SyntaxNodeType.Function))
+            {
+                return false;
+            }
+            if (node.IsTypeOf(SyntaxNodeType.Parentheses))
+            {
+                return IsConstant(((ParenthesesNode)node).Expression);
+            }
+            if (node.Type == SyntaxNodeType.Operator)
+            {
+                foreach (SyntaxNode operand in ((OperatorNode)node).Operands)
+                {
+                    if (!IsConstant(operand)) 
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            throw new IllegalNodeTypeException($"Unexpected node type of {node.Type}");
+        }
 
-        //private bool IsConstantIdentifier(SyntaxNode node)
-        //{
-        //    return node.Type == SyntaxNodeType.Identifier &&
-        //        (IsConstantNode(node) || IsConstantVariable(node));
-        //}
+        private bool IsConstantIdentifier(SyntaxNode node)
+        {
+            return node.Type == SyntaxNodeType.Identifier &&
+                (IsConstantNode(node) || IsConstantVariable(node));
+        }
 
-        //private bool IsConstantNode(SyntaxNode node)
-        //{
-        //    return expression.GetEnvironment().HasConstant(((IdentifierNode)node).Value);
-        //}
+        private bool IsConstantNode(SyntaxNode node)
+        {
+            return expression.GetEnvironment().HasConstant(((IdentifierNode)node).Value);
+        }
 
-        //private bool IsConstantVariable(SyntaxNode node)
-        //{
-        //    return expression.GetEnvironment().HasVariable(((IdentifierNode)node).Value) &&
-        //        ((IdentifierNode)node).Value != variable;
-        //}
+        private bool IsConstantVariable(SyntaxNode node)
+        {
+            return expression.GetEnvironment().HasVariable(((IdentifierNode)node).Value) &&
+                ((IdentifierNode)node).Value != variable;
+        }
 
         //private SyntaxNode DeriveAdditionOperator(OperatorNode node)
         //{

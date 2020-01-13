@@ -28,35 +28,35 @@ namespace Mathematics.Tests.ExpressionSimplification
             Assert.AreEqual("x", simplifier.Simplify(node).ToString());
         }
 
-        //[Test]
-        //public void Simplify_ExponentiationBy1_X()
-        //{
-        //    Environment environment = new Environment();
-        //    environment.AddSymbol("x");
-        //    ConstantSimplifier simplifier = new ConstantSimplifier(environment);
-        //    SyntaxNode node = Parser.ParseExpression("x ^ 1", environment);
-        //    Assert.AreEqual("x", simplifier.Simplify(node).ToString());
-        //}
+        [Test]
+        public void Simplify_ExponentiationBy1_X()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            ConstantSimplifier simplifier = new ConstantSimplifier(environment);
+            SyntaxNode node = Parser.ParseExpression("x ^ 1", environment);
+            Assert.AreEqual("x", simplifier.Simplify(node).ToString());
+        }
 
-        //[Test]
-        //public void Simplify_Add0_X()
-        //{
-        //    Environment environment = new Environment();
-        //    environment.AddSymbol("x");
-        //    ConstantSimplifier simplifier = new ConstantSimplifier(environment);
-        //    SyntaxNode node = Parser.ParseExpression("x + 0", environment);
-        //    Assert.AreEqual("x", simplifier.Simplify(node).ToString());
-        //}
+        [Test]
+        public void Simplify_Add0_X()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            ConstantSimplifier simplifier = new ConstantSimplifier(environment);
+            SyntaxNode node = Parser.ParseExpression("x + 0", environment);
+            Assert.AreEqual("x", simplifier.Simplify(node).ToString());
+        }
 
-        //[Test]
-        //public void Simplify_Subtract0_X()
-        //{
-        //    Environment environment = new Environment();
-        //    environment.AddSymbol("x");
-        //    ConstantSimplifier simplifier = new ConstantSimplifier(environment);
-        //    SyntaxNode node = Parser.ParseExpression("x - 0", environment);
-        //    Assert.AreEqual("x", simplifier.Simplify(node).ToString());
-        //}
+        [Test]
+        public void Simplify_Subtract0_X()
+        {
+            Environment environment = new Environment();
+            environment.AddSymbol("x");
+            ConstantSimplifier simplifier = new ConstantSimplifier(environment);
+            SyntaxNode node = Parser.ParseExpression("x - 0", environment);
+            Assert.AreEqual("x", simplifier.Simplify(node).ToString());
+        }
 
         [Test]
         public void Simplify_Addition_3()

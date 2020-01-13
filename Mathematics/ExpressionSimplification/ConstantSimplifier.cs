@@ -54,6 +54,14 @@ namespace Mathematics.ExpressionSimplification
             {
                 simplifiedResult = SimplifyMultiplicativeIdentity((OperatorNode)simplifiedResult);
             }
+            if (simplifiedResult.IsTypeOf(SyntaxNodeType.Operator))
+            {
+                simplifiedResult = SimplifyExponentiationIdentity((OperatorNode)simplifiedResult);
+            }
+            if (simplifiedResult.IsTypeOf(SyntaxNodeType.Operator))
+            {
+                simplifiedResult = SimplifyAdditiveIdentity((OperatorNode)simplifiedResult);
+            }
             return simplifiedResult;
         }
 
@@ -103,6 +111,56 @@ namespace Mathematics.ExpressionSimplification
             if (node.Operands.Count == 0)
             {
                 return new NumberNode(1);
+            }
+            if (node.Operands.Count == 1)
+            {
+                return node.Operands[0];
+            }
+            return node;
+        }
+
+        private SyntaxNode SimplifyExponentiationIdentity(OperatorNode node)
+        {
+            if (node.Operator == Operator.Exponentiation)
+            {
+                List<SyntaxNode> simplifiedOperands = new List<SyntaxNode>();
+                foreach (SyntaxNode operand in node.Operands)
+                {
+                    if (!operand.IsTypeOf(SyntaxNodeType.Number) || (operand.IsTypeOf(SyntaxNodeType.Number) && ((NumberNode)operand).Value != 1))
+                    {
+                        simplifiedOperands.Add(operand);
+                    }
+                }
+                node.Operands = simplifiedOperands;
+            }
+            if (node.Operands.Count == 0)
+            {
+                return new NumberNode(1);
+            }
+            if (node.Operands.Count == 1)
+            {
+                return node.Operands[0];
+            }
+            return node;
+        }
+
+        private SyntaxNode SimplifyAdditiveIdentity(OperatorNode node)
+        {
+            if (node.Operator == Operator.Addition || node.Operator == Operator.Subtraction)
+            {
+                List<SyntaxNode> simplifiedOperands = new List<SyntaxNode>();
+                foreach (SyntaxNode operand in node.Operands)
+                {
+                    if (!operand.IsTypeOf(SyntaxNodeType.Number) || (operand.IsTypeOf(SyntaxNodeType.Number) && ((NumberNode)operand).Value != 0))
+                    {
+                        simplifiedOperands.Add(operand);
+                    }
+                }
+                node.Operands = simplifiedOperands;
+            }
+            if (node.Operands.Count == 0)
+            {
+                return new NumberNode(0);
             }
             if (node.Operands.Count == 1)
             {

@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>DerivativeApp</RootNamespace>
     <AssemblyName>DerivativeApp</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>

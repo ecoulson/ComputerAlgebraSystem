@@ -8,38 +8,38 @@ namespace Mathematics.Tests.Calculus
     [TestFixture]
     public class DerivativeTest
     {
-        //[Test]
-        //public void Derive_Constant_Returns0()
-        //{
-        //    Environment environment = new Environment();
-        //    SyntaxNode node = Parser.ParseExpression("42", environment);
-        //    Expression expression = new Expression(node, environment);
-        //    Derivative derivative = new Derivative(expression, "x");
+        [Test]
+        public void Derive_Constant_Returns0()
+        {
+            Environment environment = new Environment();
+            SyntaxNode node = Parser.ParseExpression("42", environment);
+            Expression expression = new Expression(node, environment);
+            Derivative derivative = new Derivative(expression, "x");
 
-        //    Assert.AreEqual(derivative.Derive().ToString(), "0");
-        //}
+            Assert.AreEqual(derivative.Derive().ToString(), "0");
+        }
 
-        //[Test]
-        //public void Derive_EulersConstant_Returns0()
-        //{
-        //    Environment environment = new Environment();
-        //    SyntaxNode node = Parser.ParseExpression("e", environment);
-        //    Expression expression = new Expression(node, environment);
-        //    Derivative derivative = new Derivative(expression, "x");
+        [Test]
+        public void Derive_EulersConstant_Returns0()
+        {
+            Environment environment = new Environment();
+            SyntaxNode node = Parser.ParseExpression("e", environment);
+            Expression expression = new Expression(node, environment);
+            Derivative derivative = new Derivative(expression, "x");
 
-        //    Assert.AreEqual(derivative.Derive().ToString(), "0");
-        //}
+            Assert.AreEqual(derivative.Derive().ToString(), "0");
+        }
 
-        //[Test]
-        //public void Derive_ComplexConstant_Returns0()
-        //{
-        //    Environment environment = new Environment();
-        //    SyntaxNode node = Parser.ParseExpression("(2 * 2) + 4 ^ 2 - 5 / 5", environment);
-        //    Expression expression = new Expression(node, environment);
-        //    Derivative derivative = new Derivative(expression, "x");
+        [Test]
+        public void Derive_ComplexConstant_Returns0()
+        {
+            Environment environment = new Environment();
+            SyntaxNode node = Parser.ParseExpression("(2 * 2) + 4 ^ 2 - 5 / 5", environment);
+            Expression expression = new Expression(node, environment);
+            Derivative derivative = new Derivative(expression, "x");
 
-        //    Assert.AreEqual(derivative.Derive().ToString(), "0");
-        //}
+            Assert.AreEqual(derivative.Derive().ToString(), "0");
+        }
 
         [Test]
         public void Derive_x_Returns1()
